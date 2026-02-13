@@ -5,7 +5,10 @@ class World {
   clouds;
   backgroundObjects;
   coins;
+  collectedCoins = 0;
   bottles;
+  bottleNumber = 0;
+  bottlesLeft = 0;
   camera_x = 0;
   level;
   statusBarEnergy = new StatusBar("energy", 10);
@@ -14,7 +17,7 @@ class World {
   canvas;
   ctx;
   keyboard;
-  throwableObjects = [new ThrowableObject()];
+  throwableObjects = [];
   lastAction = new Date().getTime();
   worldActions = new WorldActions();
 
@@ -94,17 +97,8 @@ class World {
   run() {
     setInterval(() => {
       this.worldActions.checkCollisions();
-      this.checkThrowObjects();
-      // this.worldActions.checkDistanceToEndboss();
-      // this.isPepeSleeping();
+      this.worldActions.checkThrowObjects();
     }, 1000 / 60);
-  }
-
-  checkThrowObjects() {
-    if (this.keyboard.D) {
-      let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-      this.throwableObject.push(bottle);
-    }
   }
 
   draw() {
@@ -121,6 +115,7 @@ class World {
     this.addObjectsToMap(this.clouds);
     this.addObjectsToMap(this.enemies);
     this.addObjectsToMap(this.bottles);
+    this.addObjectsToMap(this.coins);
     this.addObjectsToMap(this.throwableObjects);
 
     this.ctx.translate(-this.camera_x, 0);
@@ -176,4 +171,30 @@ class World {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
+
+  updateStatusbar(bar, assets, images) {
+    bar.setPercentage(assets, images);
+  }
+
+  registerTime() {
+    this.lastAction = new Date().getTime();
+    this.PepeIsSleeping();
+  }
+
+  PepeIsSleeping() {
+    if (new Date().getTime() - this.lastAction > 15000) {
+      this.character.isSnoozing = false;
+      this.character.isSleeping = true;
+    } else if (new Date().getTime() - this.lastAction > 1) {
+      this.character.isSnoozing = true;
+    } else {
+      this.character.isSnoozing = false;
+      this.character.isSleeping = false;
+    }
+  }
+
+  clearIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+  }
+
 }

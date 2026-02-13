@@ -14,7 +14,8 @@ class Bottle extends MovableObject {
    * * @param {number} number - The number of the bottle.
    */
   constructor(number, image) {
-    super().loadImage(image);
+    super();
+    this.loadImage(image); 
     this.number = number;
     this.x = 200 + Math.random() * 2000;
     this.width = 80;

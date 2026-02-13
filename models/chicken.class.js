@@ -34,7 +34,7 @@ class Chicken extends MovableObject {
     this.walkingSpeed = 0.15 + Math.random() * 0.5;
     this.number = number;
     this.loadImages(this.IMAGES_WALKING);
-    this.loadImage(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_DEAD);
     if (this.isAlive) {
       this.animate();
     }
@@ -44,13 +44,16 @@ class Chicken extends MovableObject {
    * Animates the chicken, so that it walks towards the game character.
    */
   animate() {
-    setInterval(() => {
-      this.x -= this.walkingSpeed; // Nach links bewegen
+    this.movementInterval = setInterval(() => {
+      if (this.isAlive) {
+        this.x -= this.walkingSpeed;
+      }
     }, 1000 / 60);
 
-    // Animation - HIER starten, nachdem Bilder geladen sind!
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_WALKING);
+    this.animationInterval = setInterval(() => {
+      if (this.isAlive) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
     }, 270);
   }
 }

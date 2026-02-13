@@ -92,6 +92,7 @@ class Endboss extends MovableObject {
     this.animation;
     setInterval(() => {
       this.moveLeft();
+      this.otherDirection = false;
     }, 1000 / 60);
   }
 
@@ -150,7 +151,7 @@ class Endboss extends MovableObject {
 
   /**
    * Lets endboss be hit and animates endboss accordingly.
-   * After one secons, endboss continues with the current emotional stage.
+   * After one second, endboss continues with the current emotional stage.
    */
   hit() {
     return new Promise((resolve) => {

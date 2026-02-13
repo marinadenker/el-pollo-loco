@@ -115,7 +115,6 @@ class Character extends MovableObject {
     this.sound = sound;
   }
 
-
   /**
    * Animates the character, so that it walks towards the current direction.
    */
@@ -136,7 +135,7 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      if (!this.world) return; // WICHTIG: Prüfung hinzufügen
+      if (!this.world) return;
       this.checkDirection();
       this.world.camera_x = -this.x + 100;
       if (this.world.keyboard.RIGHT) {
@@ -149,7 +148,7 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      if (!this.world) return; // WICHTIG: Prüfung hinzufügen
+      if (!this.world) return;
 
       if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
@@ -161,60 +160,20 @@ class Character extends MovableObject {
     }, 100);
   }
 
-  /**
-   * Finds out which direction Pepe is currently moving to.
-   */
+
   checkDirection() {
-    if (!this.world) return; // WICHTIG: Prüfung hinzufügen
     this.ifPepeIsWalkingRight();
     this.ifPepeIsWalkingLeft();
     this.ifPepeIsJumping();
   }
 
-  /**
-   * If Pepe is moving to the right, this function starts the correct animation and saves information on the direction for other functions.
-   */
-  ifPepeIsWalkingRight() {
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-      this.moveRight();
-      // this.world.registerTime();
-      this.otherDirection = false;
-      this.direction = true;
-    }
-  }
-
-  /**
-   * If Pepe is moving to the left, this function starts the correct animation and saves information on the direction for other functions.
-   */
-  ifPepeIsWalkingLeft() {
-    if (this.world.keyboard.LEFT && this.x > 0) {
-      this.moveLeft();
-      // this.world.registerTime();
-      this.otherDirection = true;
-      this.direction = false;
-    }
-  }
-
-  /**
-   * If Pepe is jumping, this function starts the correct animation and saves information on the direction for other functions.
-   */
-  ifPepeIsJumping() {
-    if ((this.world.keyboard.SPACE && !this.isAboveGround()) || (this.world.keyboard.UP && !this.isAboveGround())) {
-      this.jump(this.sound);
-      // this.world.registerTime();
-    }
-  }
-
-  /**
-   * Checks, which status Pepe is in and starts correct animation.
-   */
   checkStatus() {
     if (this.isDead()) {
-      this.endPepesLife();
+      this.ifPepeIsDead();
     } else if (this.isSnoozing) {
       this.playAnimation(this.IMAGES_IDLE);
     } else if (this.isSleeping) {
-      this.putPepeinSleepingMode();
+      this.playSleepingAnimation();
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
     } else if (this.isAboveGround()) {
@@ -234,35 +193,67 @@ class Character extends MovableObject {
     }
   }
 
-  /**
-   * Plays death-animation, shows game over image and ends game.
-   */
-  endPepesLife() {
-    this.world.clearAllIntervals();
+  ifPepeIsWalkingRight() {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.moveRight();
+      this.otherDirection = false;
+      this.direction = true;
+    }
+  }
+
+  ifPepeIsWalkingLeft() {
+    if (this.world.keyboard.LEFT && this.x > 0) {
+      this.moveLeft();
+      this.otherDirection = true;
+      this.direction = false;
+    }
+  }
+
+  ifPepeIsJumping() {
+    if (
+      (this.world.keyboard.SPACE && !this.isAboveGround()) ||
+      (this.world.keyboard.UP && !this.isAboveGround())
+    ) {
+      this.jump();
+      this.playAnimation(this.IMAGES_JUMPING);
+    }
+  }
+
+  ifPepeIsInactive() {
+    if (this.isDead()) {
+      this.endPepesLife();
+    } else if (this.isSnoozing && !this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_IDLE);
+    } else if (this.isSleeping) {
+      this.playSleepingAnimation();
+    }
+  }
+
+  playSleepingAnimation() {
+    this.playAnimation(this.IMAGES_LONG_IDLE);
+  }
+
+  ifPepeIsInAction() {
+    if (this.isHurt() && !this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else {
+      this.ifPepeIsWalking();
+    }
+  }
+
+  ifPepeIsWalking() {
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+  }
+
+  ifPepeIsDead() {
+    this.world.clearIntervals();
     this.playAnimation(this.IMAGES_DEAD);
     this.world.showGameOverImage();
     setInterval(() => {
       this.y += 10;
     }, 50);
     this.world.leaveGame("lost", 0);
-  }
-
-  /**
-   * Plays sleeping-animation and if Pepe wakes up plays frigthened-animation.
-   */
-  putPepeinSleepingMode() {
-    this.playAnimation(this.IMAGES_LONG_IDLE);
-    if (this.world.keyboard.D) {
-      this.playAnimation(this.IMAGES_FRIGHTENED);
-    }
-  }
-
-  /**
-   * Plays walking-animation.
-   */
-  ifPepeIsMoving() {
-    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-      this.playAnimation(this.IMAGES_WALKING);
-    }
   }
 }

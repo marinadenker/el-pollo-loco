@@ -130,12 +130,8 @@ class MovableObject extends DrawableObject {
    * makes object jump by setting speedY to 30 and plays jumping sound id sound is on.
    * @param {boolean} sound - infomrs whether sound is on or not.
    */
-  jump(sound) {
+  jump() {
     this.speedY = 30;
-
-    if (sound.activated) {
-      this.jumpingSound.play();
-    }
   }
 
   /**

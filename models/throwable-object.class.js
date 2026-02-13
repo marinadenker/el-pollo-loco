@@ -33,7 +33,8 @@ class ThrowableObject extends MovableObject {
    * @param {number} bottleNumber - The number of the bottle.
    */
   constructor(x, y, direction, bottleNumber) {
-    super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
+    super();
+    this.loadImage("img/6_salsa_bottle/salsa_bottle.png"); 
     this.loadImages(this.IMAGES_SPLASHING);
     this.loadImages(this.IMAGES_ROTATING);
     this.x = x;
@@ -46,9 +47,7 @@ class ThrowableObject extends MovableObject {
     this.throw();
   }
 
-  /**
-   * Makes a bottle fly by animating it, applying gravity and adding on or substracting from the x-coordinate to make it move horizontally.
-   */
+
   throw() {
     this.speedY = 30;
     this.applyGravity();
@@ -63,9 +62,7 @@ class ThrowableObject extends MovableObject {
     }
   }
 
-  /**
-   * Animates images of a flying bottle.
-   */
+
   animate(images) {
     setInterval(() => {
       this.playAnimation(images);
