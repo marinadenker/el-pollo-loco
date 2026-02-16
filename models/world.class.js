@@ -26,9 +26,9 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.character = new Character();
+    this.setWorld();
     this.checkLevel();
     this.objectsStartMoving();
-    this.setWorld();
     this.run();
     setTimeout(() => this.draw(), 500);
   }

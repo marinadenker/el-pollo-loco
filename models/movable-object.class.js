@@ -14,7 +14,6 @@ class MovableObject extends DrawableObject {
   constructor() {
     super();
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
-
   }
 
   /**
@@ -49,7 +48,7 @@ class MovableObject extends DrawableObject {
    * Returns true if the element is above the y-coordiante of 200.
    */
   isAboveGround() {
-    if(this instanceof ThrowableObject) {
+    if (this instanceof ThrowableObject) {
       return true;
     } else {
       return this.y < 200;
@@ -96,15 +95,6 @@ class MovableObject extends DrawableObject {
    */
   animate() {
     setInterval(() => {
-      if (this.isDead()) this.performDeathAnimation();
-      else if (this.isHurt()) this.performHurtAnimation();
-      else if (this.isAboveGround()) this.performJumpingAnimation();
-      else if (this.canJumpRight()) this.performJumpRight();
-      else if (this.canJumpLeft()) this.performJumpLeft();
-      else if (this.canJump()) this.performJump();
-      else if (this.canMoveRight()) this.performMoveRight();
-      else if (this.canMoveLeft()) this.performMoveLeft();
-      else this.performIdle();
       this.world.camera_x = -this.x + 100;
     }, 1000 / 10);
   }

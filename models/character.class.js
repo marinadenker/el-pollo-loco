@@ -135,21 +135,11 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      if (!this.world) return;
-      this.checkDirection();
-      this.world.camera_x = -this.x + 100;
-      if (this.world.keyboard.RIGHT) {
-        this.x += this.speed;
-      }
-
-      if (this.world.keyboard.LEFT) {
-        this.x -= this.speed;
-      }
-    }, 1000 / 60);
+    this.checkDirection();
+    this.world.camera_x = Math.max(-this.world.level.level_end_x, -this.x + 100);
+  }, 1000 / 60);
 
     setInterval(() => {
-      if (!this.world) return;
-
       if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {

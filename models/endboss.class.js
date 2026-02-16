@@ -4,7 +4,7 @@ class Endboss extends MovableObject {
   y = -20;
   isAlive = true;
   speed = 0;
-  emotionalStage = "walking";
+  currentState = "walking";
   animation;
   walkingSpeed = 0.15;
   number = -1;
@@ -84,11 +84,9 @@ class Endboss extends MovableObject {
     }
   }
 
-  /**
-   * Animates the endboss, so that it walks towards the game character and shows the emotional stage.
-   */
+
   animate() {
-    this.animateEmotionalStage();
+    this.animateCurrentState();
     this.animation;
     setInterval(() => {
       this.moveLeft();
@@ -96,52 +94,42 @@ class Endboss extends MovableObject {
     }, 1000 / 60);
   }
 
-  /**
-   * Animates the endbosses emotional stage.
-   */
-  animateEmotionalStage() {
+
+  animateCurrentState() {
     if (this.animation) {
       clearInterval(this.animation);
     }
-    if (this.emotionalStage == "walking") {
+    if (this.currentState == "walking") {
       this.endbossWalks;
-    } else if (this.emotionalStage == "alert") {
+    } else if (this.currentState == "alert") {
       this.endbossAlerted();
-    } else if (this.emotionalStage == "attack") {
+    } else if (this.currentState == "attack") {
       this.endbossAttacks();
     }
   }
 
-  /**
-   * Lets endboss walk to the left.
-   */
+
   endbossWalks() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
     }, 300);
   }
 
-  /**
-   * Lets endboss be alert.
-   */
+
   endbossAlerted() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_ALERT);
     }, 300);
   }
 
-  /**
-   * Lets endboss attack.
-   */
+
   endbossAttacks() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_ATTACKING, 5);
     }, 250);
   }
 
-  /**
-   * Plays hurt-animation.
-   */
+
   endbossIsHurt() {
     clearInterval(this.animation);
     this.animation = setInterval(() => {
@@ -149,15 +137,12 @@ class Endboss extends MovableObject {
     }, 300);
   }
 
-  /**
-   * Lets endboss be hit and animates endboss accordingly.
-   * After one second, endboss continues with the current emotional stage.
-   */
+
   hit() {
     return new Promise((resolve) => {
       this.endbossIsHurt();
       setTimeout(() => {
-        this.animateEmotionalStage();
+        this.animateCurrentState();
       }, 1000);
       resolve();
     });
