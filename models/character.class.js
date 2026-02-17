@@ -92,11 +92,7 @@ class Character extends MovableObject {
   sound;
   currentImage = 0;
 
-  /**
-   * Represents a bottle
-   * @constructor
-   * @param {boolean} sound - Informs whether the sound is on or off.
-   */
+
   constructor(sound) {
     super();
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
@@ -108,48 +104,33 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
-    this.applyGravity();
-    this.animate();
     this.width = 120;
     this.height = 220;
+    this.applyGravity();
+    this.animate();
     this.sound = sound;
   }
 
-  /**
-   * Animates the character, so that it walks towards the current direction.
-   */
-  // animate() {
-  //   setInterval(() => {
-  //     this.checkDirection();
-  //     this.world.camera_x = -this.x + 100;
-  //   }, 1000 / 60);
-
-  //   setInterval(() => {
-  //     this.checkStatus();
-  //   }, 1000 );
-
-  //   setInterval(() => {
-  //     this.checkStatus2();
-  //   }, 300 );
-  // }
-
   animate() {
     setInterval(() => {
-    this.checkDirection();
-    this.world.camera_x = Math.max(-this.world.level.level_end_x, -this.x + 100);
-  }, 1000 / 60);
+      this.checkDirection();
+      this.world.camera_x = Math.max(
+        -this.world.level.level_end_x,
+        -this.x + 100,
+      );
+      this.ifPepeIsFalling();
+    }, 1000 / 60);
 
     setInterval(() => {
-      if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
-      } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          this.playAnimation(this.IMAGES_WALKING);
-        }
-      }
+      this.ifPepeIsAboveGround();
+    }, 300);
+    setInterval(() => {
+      this.ifPepeIsInactive();
+    }, 1000);
+    setInterval(() => {
+      this.ifPepeIsInAction();
     }, 100);
   }
-
 
   checkDirection() {
     this.ifPepeIsWalkingRight();
@@ -157,29 +138,18 @@ class Character extends MovableObject {
     this.ifPepeIsJumping();
   }
 
-  checkStatus() {
-    if (this.isDead()) {
-      this.ifPepeIsDead();
-    } else if (this.isSnoozing) {
-      this.playAnimation(this.IMAGES_IDLE);
-    } else if (this.isSleeping) {
-      this.playSleepingAnimation();
-    } else if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
-    } else if (this.isAboveGround()) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    } else {
-      this.ifPepeIsMoving();
-    }
-  }
 
-  checkStatus2() {
-    if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
-    } else if (this.isAboveGround()) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    } else {
-      this.ifPepeIsMoving();
+  ifPepeIsFalling() {
+    if (this.isAboveGround()) {
+      if (this.speedY < 0 && this.speedY > -20) {
+        this.img = this.imageCache["img/2_character_pepe/3_jump/J-37.png"];
+      }
+      if (this.speedY < -20 && this.speedY > -28) {
+        this.playAnimation(this.IMAGES_LANDING);
+      }
+      if (this.speedY < -28) {
+        this.playAnimation(this.IMAGES_IDLE);
+      }
     }
   }
 
@@ -188,6 +158,7 @@ class Character extends MovableObject {
       this.moveRight();
       this.otherDirection = false;
       this.direction = true;
+      this.world.trackInactivity();
     }
   }
 
@@ -196,6 +167,7 @@ class Character extends MovableObject {
       this.moveLeft();
       this.otherDirection = true;
       this.direction = false;
+      this.world.trackInactivity();
     }
   }
 
@@ -205,13 +177,19 @@ class Character extends MovableObject {
       (this.world.keyboard.UP && !this.isAboveGround())
     ) {
       this.jump();
+      this.world.trackInactivity();
+    }
+  }
+
+  ifPepeIsAboveGround() {
+    if (this.isAboveGround() && this.speedY > 0) {
       this.playAnimation(this.IMAGES_JUMPING);
     }
   }
 
   ifPepeIsInactive() {
     if (this.isDead()) {
-      this.endPepesLife();
+      this.ifPepeIsDead();
     } else if (this.isSnoozing && !this.isAboveGround()) {
       this.playAnimation(this.IMAGES_IDLE);
     } else if (this.isSleeping) {
@@ -224,6 +202,7 @@ class Character extends MovableObject {
   }
 
   ifPepeIsInAction() {
+    if (this.isSleeping || this.isSnoozing) return;
     if (this.isHurt() && !this.isAboveGround()) {
       this.playAnimation(this.IMAGES_HURT);
     } else {

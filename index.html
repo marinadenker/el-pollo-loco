@@ -29,8 +29,28 @@
     
     <!-- <h1>El Pollo Loco</h1> -->
 
-    <canvas id="canvas" width="720" height="480">
+<div id="fullscreen" class="gamescreen">
+    <div id="landingscreen" class="landingscreen">
+        <button class="wood-btn">Explanation</button>
+        <button class="wood-btn">Start Game</button>
+    </div>
 
-    </canvas>
+    <canvas id="canvas" width="720" height="480"></canvas>
+    <div class="game-btns">
+        <div id="restart-game" onclick="" class="restart-game d-none">restart game</div>
+        <div id="exit-game" onclick="" class="restart-game d-none">exit game</div>
+        <div id="sound-btn" onclick="" class="restart-game d-none"></div>
+    </div>
+    <div id="mobile-btns" class="mobile-btns d-none">
+        <div id="move-btns" class="action-btns">
+            <div id="move-left-btn" class="btn"><i class="arrow left"></i></div>
+            <div id="move-right-btn" class="btn"><i class="arrow right"></i></div>
+        </div>
+    </div>
+
+</div>
+
+
+    <!-- <div id="portrait-mode" class="fullscreen">Please turn your device</div> -->
 </body>
 </html>

@@ -99,6 +99,10 @@ class World {
       this.worldActions.checkCollisions();
       this.worldActions.checkThrowObjects();
     }, 1000 / 60);
+
+    setInterval(() => {
+      this.PepeIsSleeping(); // ← das fehlt noch
+    }, 1000);
   }
 
   draw() {
@@ -176,17 +180,18 @@ class World {
     bar.setPercentage(assets, images);
   }
 
-  registerTime() {
+  trackInactivity() {
     this.lastAction = new Date().getTime();
-    this.PepeIsSleeping();
   }
 
   PepeIsSleeping() {
-    if (new Date().getTime() - this.lastAction > 15000) {
+    const inactiveSince = new Date().getTime() - this.lastAction;
+    if (inactiveSince > 15000) {
       this.character.isSnoozing = false;
       this.character.isSleeping = true;
-    } else if (new Date().getTime() - this.lastAction > 1) {
+    } else if (inactiveSince > 5000) {
       this.character.isSnoozing = true;
+      this.character.isSleeping = false;
     } else {
       this.character.isSnoozing = false;
       this.character.isSleeping = false;

@@ -1,11 +1,16 @@
 class Chicken extends MovableObject {
+  walkingSpeed;
+  isAlive = true;
+  currentImage = 0;
+  number;
+
   offset = {
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
   };
-  walkingSpeed;
+  
   IMAGES_WALKING = [
     "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
     "img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
@@ -13,10 +18,6 @@ class Chicken extends MovableObject {
   ];
 
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
-
-  isAlive = true;
-  currentImage = 0;
-  number;
 
   /**
    * Represents a chicken.
@@ -57,4 +58,3 @@ class Chicken extends MovableObject {
     }, 270);
   }
 }
-
