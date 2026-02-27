@@ -3,15 +3,14 @@ let world;
 let keyboard = new Keyboard();
 let currentLevel = 1;
 
-
-function init(){
-    if (currentLevel == 1) {
-      initLevel();
-    } else {
-      initLevel2();
-    }
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+function init() {
+  if (currentLevel == 1) {
+    initLevel1();
+  } else {
+    initLevel2();
+  }
+  canvas = document.getElementById("canvas");
+  world = new World(canvas, keyboard);
 }
 
 /**
@@ -19,22 +18,22 @@ function init(){
  */
 window.addEventListener("keydown", (event) => {
   if (event.keyCode == 39) {
-      keyboard.RIGHT = true;
+    keyboard.RIGHT = true;
   }
   if (event.keyCode == 37) {
-      keyboard.LEFT = true;
+    keyboard.LEFT = true;
   }
   if (event.keyCode == 38) {
-      keyboard.UP = true;
+    keyboard.UP = true;
   }
   if (event.keyCode == 40) {
-      keyboard.DOWN = true;
+    keyboard.DOWN = true;
   }
   if (event.keyCode == 32) {
-      keyboard.SPACE = true;
+    keyboard.SPACE = true;
   }
-  if (event.keyCode == 68  && !event.repeat) {
-      keyboard.D = true;
+  if (event.keyCode == 68 && !event.repeat) {
+    keyboard.D = true;
   }
 });
 
@@ -61,3 +60,95 @@ window.addEventListener("keyup", (event) => {
     keyboard.D = false;
   }
 });
+
+/**
+ * prevents default.
+ */
+function preventDefault(e) {
+  if (e.cancelable) {
+    e.preventDefault();
+  }
+}
+
+/**
+ * ontouchstart, the specific keyboard functions are set to true.
+ */
+document.getElementById("move-left-btn").addEventListener("touchstart", (e) => {
+  preventDefault(e);
+  keyboard.LEFT = true;
+});
+
+/**
+ * ontouchend, the specific keyboard functions are set to false.
+ */
+document.getElementById("move-left-btn").addEventListener("touchend", (e) => {
+  preventDefault(e);
+  keyboard.LEFT = false;
+});
+
+/**
+ * ontouchstart, the specific keyboard functions are set to true.
+ */
+document
+  .getElementById("move-right-btn")
+  .addEventListener("touchstart", (e) => {
+    preventDefault(e);
+    keyboard.RIGHT = true;
+  });
+
+/**
+ * ontouchend, the specific keyboard functions are set to false.
+ */
+document.getElementById("move-right-btn").addEventListener("touchend", (e) => {
+  preventDefault(e);
+  keyboard.RIGHT = false;
+});
+
+/**
+ * ontouchstart, the specific keyboard functions are set to true.
+ */
+document.getElementById("jump-btn").addEventListener("touchstart", (e) => {
+  preventDefault(e);
+  keyboard.UP = true;
+});
+
+/**
+ * ontouchend, the specific keyboard functions are set to false.
+ */
+document.getElementById("jump-btn").addEventListener("touchend", (e) => {
+  preventDefault(e);
+  keyboard.UP = false;
+});
+
+/**
+ * ontouchstart, the specific keyboard functions are set to true.
+ */
+document.getElementById("throw-btn").addEventListener("touchstart", (e) => {
+  preventDefault(e);
+  keyboard.D = true;
+});
+
+/**
+ * ontouchend, the specific keyboard functions are set to false.
+ */
+document.getElementById("throw-btn").addEventListener("touchend", (e) => {
+  preventDefault(e);
+  keyboard.D = false;
+});
+
+
+function closeOverlay(overlayId) {
+  document.getElementById(overlayId).classList.add("d-none");
+}
+
+function openExplanation() {
+  const overlay = document.getElementById("game-explanation");
+  overlay.innerHTML = getExplanationOverlay();
+  overlay.classList.remove("d-none");
+}
+
+function openImprint() {
+  const overlay = document.getElementById("imprint");
+  overlay.innerHTML = getImprintOverlay();
+  overlay.classList.remove("d-none");
+}

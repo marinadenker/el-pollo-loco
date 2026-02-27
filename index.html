@@ -23,28 +23,39 @@
     <script src="models/endboss.class.js"></script>
     <script src="models/throwable-object.class.js"></script>
     <script src="./js/game.js"></script>
+    <script src="./js/templates.js"></script>
 </head>
 
 <body onload="init()">
     
     <!-- <h1>El Pollo Loco</h1> -->
 
-<div id="fullscreen" class="gamescreen">
+<div id="fullscreen" class="game-container">
     <div id="landingscreen" class="landingscreen">
-        <button class="wood-btn">Explanation</button>
-        <button class="wood-btn">Start Game</button>
+        <button class="wood-btn" onclick="openExplanation()">Explanation</button>
+        <button class="wood-btn" onclick="initLevel()">Start Game</button>
+        <button class="wood-btn" onclick="openImprint()">Imprint</button>
     </div>
 
     <canvas id="canvas" width="720" height="480"></canvas>
-    <div class="game-btns">
-        <div id="restart-game" onclick="" class="restart-game d-none">restart game</div>
-        <div id="exit-game" onclick="" class="restart-game d-none">exit game</div>
-        <div id="sound-btn" onclick="" class="restart-game d-none"></div>
+    <div id="game-information">
+        <div id="game-explanation" class="overlay d-none"></div>
+        <div id="imprint" class="overlay d-none"></div>
+    </div>
+
+    <div id="game-btns" class="game-btns d-none">
+        <div id="restart-game" onclick="" class="restart-game">restart game</div>
+        <div id="exit-game" onclick="" class="restart-game">exit game</div>
+        <div id="sound-btn" onclick="" class="restart-game"></div>
     </div>
     <div id="mobile-btns" class="mobile-btns d-none">
-        <div id="move-btns" class="action-btns">
-            <div id="move-left-btn" class="btn"><i class="arrow left"></i></div>
-            <div id="move-right-btn" class="btn"><i class="arrow right"></i></div>
+        <div id="btns-left" class="wrapper-btns-left">
+            <div id="move-left-btn" class="btn"><img src="img/icons/arrow_left.svg"></div>
+            <div id="move-right-btn" class="btn"><img src="img/icons/arrow_right.svg"></div>
+        </div>
+        <div class="wrapper-btns-right">
+            <div id="jump-btn" class="btn"><img src="img/icons/arrow_up.svg"></div>
+            <div id="throw-btn" class="btn"><img src="img/icons/throw_icon.svg"></div>
         </div>
     </div>
 

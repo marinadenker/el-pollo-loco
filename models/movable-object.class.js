@@ -83,12 +83,6 @@ class MovableObject extends DrawableObject {
     return timepassed < 1;
   }
 
-  /**
-   * Returns whether the character is dead or not.
-   */
-  isDead() {
-    return this.energy == 0;
-  }
 
   /**
    * Handles character animation and camera movement.
@@ -116,21 +110,12 @@ class MovableObject extends DrawableObject {
     this.x -= this.speed;
   }
 
-  /**
-   * makes object jump by setting speedY to 30 and plays jumping sound id sound is on.
-   * @param {boolean} sound - infomrs whether sound is on or not.
-   */
+
   jump() {
     this.speedY = 30;
   }
 
-  /**
-   * Plays an animation by cycling through a list of images.
-   * The animation speed can changed by `frameSpeed` parameter.
-   *
-   * @param {string[]} images - Array of image paths..
-   * @param {number} [frameSpeed=1] - Speed multiplier for frame progression.
-   */
+
   playAnimation(images, frameSpeed = 1) {
     this.animationFrameCounter = (this.animationFrameCounter || 0) + frameSpeed;
     if (this.animationFrameCounter >= 1) {

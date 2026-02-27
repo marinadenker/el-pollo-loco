@@ -5,6 +5,7 @@ class Endboss extends MovableObject {
   isAlive = true;
   speed = 0;
   currentState = "walking";
+  energy = 100;
   animation;
   walkingSpeed = 0.15;
   number = -1;
@@ -84,7 +85,6 @@ class Endboss extends MovableObject {
     }
   }
 
-
   animate() {
     this.animateCurrentState();
     this.animation;
@@ -94,20 +94,21 @@ class Endboss extends MovableObject {
     }, 1000 / 60);
   }
 
-
   animateCurrentState() {
     if (this.animation) {
       clearInterval(this.animation);
     }
     if (this.currentState == "walking") {
-      this.endbossWalks;
+      this.endbossWalks();
     } else if (this.currentState == "alert") {
       this.endbossAlerted();
     } else if (this.currentState == "attack") {
       this.endbossAttacks();
+    } else if (this.currentState == "hurt") {
+      this.endbossHurt();
+    } else if (this.currentState == "dead") {
     }
   }
-
 
   endbossWalks() {
     this.animation = setInterval(() => {
@@ -115,20 +116,17 @@ class Endboss extends MovableObject {
     }, 300);
   }
 
-
   endbossAlerted() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_ALERT);
     }, 300);
   }
 
-
   endbossAttacks() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_ATTACKING, 5);
     }, 250);
   }
-
 
   endbossIsHurt() {
     clearInterval(this.animation);
@@ -137,12 +135,18 @@ class Endboss extends MovableObject {
     }, 300);
   }
 
-
   hit() {
     return new Promise((resolve) => {
+      this.energy -= 20; 
+      if (this.energy < 0) this.energy = 0;
+      this.lastHit = new Date().getTime();
+      this.currentState = "hurt";
       this.endbossIsHurt();
       setTimeout(() => {
-        this.animateCurrentState();
+        if (this.currentState !== "dead") {
+          this.currentState = "walking";
+          this.animateCurrentState();
+        }
       }, 1000);
       resolve();
     });

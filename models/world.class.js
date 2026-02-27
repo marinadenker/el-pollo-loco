@@ -11,9 +11,10 @@ class World {
   bottlesLeft = 0;
   camera_x = 0;
   level;
-  statusBarEnergy = new StatusBar("energy", 10);
-  statusBarCoins = new StatusBar("coins", 55);
-  statusBarBottles = new StatusBar("bottles", 100);
+  statusBarEnergy = new StatusBar("energy", 10, 10);
+  statusBarCoins = new StatusBar("coins", 55, 10);
+  statusBarBottles = new StatusBar("bottles", 100, 10);
+  statusBarEndboss = new StatusBar("endboss", 10, 550);
   canvas;
   ctx;
   keyboard;
@@ -33,9 +34,7 @@ class World {
     setTimeout(() => this.draw(), 500);
   }
 
-  /**
-   * sets up correct level.
-   */
+
   checkLevel() {
     if (currentLevel == 1) {
       this.getLevel1();
@@ -44,9 +43,7 @@ class World {
     }
   }
 
-  /**
-   * saves all information necessary for level 1 into variables.
-   */
+
   getLevel1() {
     this.level = level1;
     this.enemies = level1.enemies;
@@ -56,9 +53,7 @@ class World {
     this.bottles = level1.bottles;
   }
 
-  /**
-   * saves all information necessary for level 2 into variables.
-   */
+
   getLevel2() {
     this.level = level2;
     this.enemies = level2.enemies;
@@ -81,19 +76,16 @@ class World {
     this.addToMap(this.statusBarEnergy);
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarBottles);
+    this.addToMap(this.statusBarEndboss);
   }
 
-  /**
-   * Links the character and each enemy to this world context for interactions.
-   */
+
   setWorld() {
     this.character.world = this;
     this.worldActions.world = this;
   }
 
-  /**
-   * makes game Intervals start.
-   */
+
   run() {
     setInterval(() => {
       this.worldActions.checkCollisions();
@@ -101,7 +93,7 @@ class World {
     }, 1000 / 60);
 
     setInterval(() => {
-      this.PepeIsSleeping(); // ← das fehlt noch
+      this.PepeIsSleeping();
     }, 1000);
   }
 
@@ -130,22 +122,14 @@ class World {
     });
   }
 
-  /**
-   * Iterates over the provided array of objects and calls `addToMap()` for each one, rendering them onto the canvas in sequence.
-   * @param {object} objects - the provided array of objects.
-   */
+
   addObjectsToMap(objects) {
     objects.forEach((object) => {
       this.addToMap(object);
     });
   }
 
-  /**
-   * Adds a single movable object to the canvas.
-   * If the object is facing the opposite direction (otherDirection = true), its image is temporarily flipped horizontally before drawing.
-   * After rendering the object, the image orientation is restored.
-   * @param {object} mo - single movable object.
-   */
+
   addToMap(mo) {
     if (mo.otherDirection) {
       this.flipImage(mo);
@@ -156,10 +140,7 @@ class World {
     }
   }
 
-  /**
-   * flips image horizontally.
-   * @param {object} mo - single movable object.
-   */
+
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -167,10 +148,7 @@ class World {
     mo.x = mo.x * -1;
   }
 
-  /**
-   * This method resets the object's horizontal position and restores the canvas context to its previous state.
-   * @param {object} mo - single movable object.
-   */
+
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
@@ -201,5 +179,4 @@ class World {
   clearIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
   }
-
 }

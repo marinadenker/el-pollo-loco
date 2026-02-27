@@ -26,6 +26,15 @@ class StatusBar extends DrawableObject {
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png",
   ];
 
+  IMAGES_ENDBOSS = [
+    "img/7_statusbars/2_statusbar_endboss/green/green0.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green20.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green40.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green60.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green80.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green100.png",
+  ];
+
   percentage = 100;
 
   /**
@@ -34,9 +43,9 @@ class StatusBar extends DrawableObject {
    * @param {string} barType - The type of the statusbar.
    * @param {number} y - The y-coordinate of the statusbar.
    */
-  constructor(barType, y) {
+  constructor(barType, y, x) {
     super();
-    this.x = 10;
+    this.x = x;
     this.y = y;
     this.width = 150;
     this.height = 40;
@@ -57,7 +66,10 @@ class StatusBar extends DrawableObject {
     } else if (barType == "bottles") {
       this.loadImages(this.IMAGES_BOTTLES);
       this.setPercentage(0, this.IMAGES_BOTTLES);
-    }
+    } else if (barType == "endboss") {
+      this.loadImages(this.IMAGES_ENDBOSS);
+      this.setPercentage(100, this.IMAGES_ENDBOSS);
+  }
   }
 
   /**

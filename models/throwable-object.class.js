@@ -6,6 +6,7 @@ class ThrowableObject extends MovableObject {
     bottom: 10,
   };
   currentImage = 0;
+
   IMAGES_SPLASHING = [
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
@@ -24,14 +25,7 @@ class ThrowableObject extends MovableObject {
 
   bottleNumber;
 
-  /**
-   * Represents a flying bottle.
-   * @constructor
-   * @param {number} x - The x-coordinate of the statusbar.
-   * @param {number} y - The y-coordinate of the statusbar.
-   * @param {boolean} direction - Whether the direction is right (true) or left (false).
-   * @param {number} bottleNumber - The number of the bottle.
-   */
+
   constructor(x, y, direction, bottleNumber) {
     super();
     this.loadImage("img/6_salsa_bottle/salsa_bottle.png"); 
