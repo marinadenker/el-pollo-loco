@@ -2,8 +2,13 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let currentLevel = 1;
+let backgroundMusic = new Audio("audio/mixkit-summer-fun-13.mp3");
+let gameResult = null;
 
 function init() {
+  document.getElementById("landingscreen").classList.add("d-none");
+  document.getElementById("game-btns").classList.remove("d-none");
+
   if (currentLevel == 1) {
     initLevel1();
   } else {
@@ -11,6 +16,7 @@ function init() {
   }
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
+  backgroundMusic.play();
 }
 
 /**
@@ -60,6 +66,12 @@ window.addEventListener("keyup", (event) => {
     keyboard.D = false;
   }
 });
+
+function playBackgroundMusic() {
+  backgroundMusicInterval = setInterval(() => {
+    playSound(backgroundMusic, 0.1);
+  }, 1000 / 60);
+}
 
 /**
  * prevents default.
@@ -136,19 +148,69 @@ document.getElementById("throw-btn").addEventListener("touchend", (e) => {
   keyboard.D = false;
 });
 
-
-function closeOverlay(overlayId) {
-  document.getElementById(overlayId).classList.add("d-none");
+function toggleOverlay(overlayId, getContentFn) {
+  const overlay = document.getElementById(overlayId);
+  if (getContentFn) overlay.innerHTML = getContentFn();
+  overlay.classList.toggle("d-none");
 }
 
-function openExplanation() {
-  const overlay = document.getElementById("game-explanation");
-  overlay.innerHTML = getExplanationOverlay();
-  overlay.classList.remove("d-none");
+function restartGame() {
+  gameResult = null;
+  exitGame();
+  init();
 }
 
-function openImprint() {
-  const overlay = document.getElementById("imprint");
-  overlay.innerHTML = getImprintOverlay();
+function toggleSoundBtn() {
+  const btn = document.getElementById("sound-btn");
+  world.toggleSound();
+  backgroundMusic.muted = world.isMuted;
+
+  btn.innerHTML = world.isMuted
+    ? '<img src="img/icons/volume_off.svg">'
+    : '<img src="img/icons/volume_up.svg">';
+}
+
+function gameOver(result) {
+  if (result === "lost") {
+    showLostSequence();
+  } else {
+    showWonScreen();
+  }
+}
+
+function showLostSequence() {
+  const overlay = document.getElementById("game-result-overlay");
+  overlay.innerHTML = getGameOverScreen();
   overlay.classList.remove("d-none");
+
+  setTimeout(() => {
+    exitGame();
+    overlay.innerHTML = getYouLostScreen();
+    overlay.classList.remove("d-none");
+  }, 3000);
+}
+
+function showWonScreen() {
+  const overlay = document.getElementById("game-result-overlay");
+  setTimeout(() => {
+    exitGame();
+    overlay.innerHTML = getYouWonScreen();
+    overlay.classList.remove("d-none");
+  }, 3000);
+}
+
+function exitGame() {
+  gameResult = null;
+  world.cleanUp();
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
+  document.getElementById("game-result-overlay").classList.add("d-none");
+  document.getElementById("landingscreen").classList.remove("d-none");
+  document.getElementById("game-btns").classList.add("d-none");
+  document.getElementById("mobile-btns").classList.add("d-none");
+}
+
+function startLevel(level) {
+  currentLevel = level;
+  restartGame();
 }

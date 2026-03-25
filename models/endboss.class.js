@@ -94,6 +94,12 @@ class Endboss extends MovableObject {
     }, 1000 / 60);
   }
 
+  changeState(newState) {
+    if (this.currentState === newState) return;
+    this.currentState = newState;
+    this.animateCurrentState();
+  }
+
   animateCurrentState() {
     if (this.animation) {
       clearInterval(this.animation);
@@ -137,7 +143,7 @@ class Endboss extends MovableObject {
 
   hit() {
     return new Promise((resolve) => {
-      this.energy -= 20; 
+      this.energy -= 20;
       if (this.energy < 0) this.energy = 0;
       this.lastHit = new Date().getTime();
       this.currentState = "hurt";

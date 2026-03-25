@@ -10,6 +10,7 @@
     <script src="models/background-objects.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
+    <script src="models/small-chicken.class.js"></script>
     <script src="models/bottle.js"></script>
     <script src="models/coins.class.js"></script>
     <script src="models/cloud.class.js"></script>
@@ -26,15 +27,21 @@
     <script src="./js/templates.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="">
     
-    <!-- <h1>El Pollo Loco</h1> -->
+    <h1>El Pollo Loco</h1>
 
 <div id="fullscreen" class="game-container">
-    <div id="landingscreen" class="landingscreen">
-        <button class="wood-btn" onclick="openExplanation()">Explanation</button>
-        <button class="wood-btn" onclick="initLevel()">Start Game</button>
-        <button class="wood-btn" onclick="openImprint()">Imprint</button>
+    <div id="game-result-overlay" class="game-result-overlay overlay-bg d-none"></div>
+    <div id="landingscreen" class="landingscreen overlay-bg">
+        <button class="wood-btn" onclick="toggleOverlay('game-explanation', getExplanationOverlay)">Explanation</button>
+        <button class="wood-btn" onclick="init()">Start Game</button>
+        <button class="wood-btn" onclick="toggleOverlay('imprint', getImprintOverlay)">Imprint</button>
+    </div>
+    <div id="game-btns" class="game-btns">
+        <button id="restart-game" onclick="restartGame()" class="restart-game-btn" title="Replay"><img src="img/icons/replay.svg"></button>
+        <button id="exit-game" onclick="exitGame()" class="exit-game-btn"><img src="img/icons/home.svg" title="Exit"></button>
+        <button id="sound-btn" onclick="toggleSoundBtn()" class="toggle-sound-btn" title="Mute"><img src="img/icons/volume_up.svg"></button>
     </div>
 
     <canvas id="canvas" width="720" height="480"></canvas>
@@ -43,11 +50,7 @@
         <div id="imprint" class="overlay d-none"></div>
     </div>
 
-    <div id="game-btns" class="game-btns d-none">
-        <div id="restart-game" onclick="" class="restart-game">restart game</div>
-        <div id="exit-game" onclick="" class="restart-game">exit game</div>
-        <div id="sound-btn" onclick="" class="restart-game"></div>
-    </div>
+    
     <div id="mobile-btns" class="mobile-btns d-none">
         <div id="btns-left" class="wrapper-btns-left">
             <div id="move-left-btn" class="btn"><img src="img/icons/arrow_left.svg"></div>

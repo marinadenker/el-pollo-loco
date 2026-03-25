@@ -5,7 +5,6 @@ class World {
   clouds;
   backgroundObjects;
   coins;
-  collectedCoins = 0;
   bottles;
   bottleNumber = 0;
   bottlesLeft = 0;
@@ -21,19 +20,33 @@ class World {
   throwableObjects = [];
   lastAction = new Date().getTime();
   worldActions = new WorldActions();
+  endbossAlert = false;
+  endbossAttacking = false;
+  collectedCoins = 0;
 
-  constructor(canvas, keyboard) {
+  EarnedCoinAudio = new Audio("audio/coin.mp3");
+  EarnedBottleAudio = new Audio("audio/collect.mp3");
+  HurtAudio = new Audio("audio/ouch.mp3");
+  JumpAudio = new Audio("audio/jump.mp3");
+  ThrowBottleAudio = new Audio("audio/throw.mp3");
+  BottleHitAudio = new Audio("audio/");
+  ChickenDeadAudio = new Audio("audio/chicken.mp3");
+  EndbossAttacksAudio = new Audio("audio/endboss_attack.mp3");
+  EndbossDeadAudio = new Audio("audio/endboss_dead.mp3");
+  SnoringAudio = new Audio("audio/snoring.mp3");
+
+  constructor(canvas, keyboard, backgroundMusic) {
+    this.backgroundMusic = backgroundMusic;
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.checkLevel();
     this.character = new Character();
     this.setWorld();
-    this.checkLevel();
     this.objectsStartMoving();
     this.run();
     setTimeout(() => this.draw(), 500);
   }
-
 
   checkLevel() {
     if (currentLevel == 1) {
@@ -43,7 +56,6 @@ class World {
     }
   }
 
-
   getLevel1() {
     this.level = level1;
     this.enemies = level1.enemies;
@@ -52,7 +64,6 @@ class World {
     this.coins = level1.coins;
     this.bottles = level1.bottles;
   }
-
 
   getLevel2() {
     this.level = level2;
@@ -79,17 +90,18 @@ class World {
     this.addToMap(this.statusBarEndboss);
   }
 
-
   setWorld() {
     this.character.world = this;
     this.worldActions.world = this;
+    this.enemies.forEach((enemy) => (enemy.world = this));
   }
-
 
   run() {
     setInterval(() => {
       this.worldActions.checkCollisions();
       this.worldActions.checkThrowObjects();
+      this.worldActions.checkEndbossState();
+      this.checkGameOver();
     }, 1000 / 60);
 
     setInterval(() => {
@@ -122,13 +134,11 @@ class World {
     });
   }
 
-
   addObjectsToMap(objects) {
     objects.forEach((object) => {
       this.addToMap(object);
     });
   }
-
 
   addToMap(mo) {
     if (mo.otherDirection) {
@@ -140,14 +150,12 @@ class World {
     }
   }
 
-
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
     this.ctx.scale(-1, 1);
     mo.x = mo.x * -1;
   }
-
 
   flipImageBack(mo) {
     mo.x = mo.x * -1;
@@ -178,5 +186,46 @@ class World {
 
   clearIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
+  }
+
+  cleanUp() {
+    this.clearIntervals();
+    cancelAnimationFrame(this.gameLoopId);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  checkGameOver() {
+    if (gameResult !== null) return;
+
+    if (this.statusBarEnergy.percentage <= 0) {
+      gameResult = "lost";
+      this.showGameOverScreen("lost");
+    } else if (this.statusBarEndboss.percentage <= 0) {
+      gameResult = "won";
+      this.showGameOverScreen("won");
+    }
+  }
+
+  showGameOverScreen(result) {
+    gameResult = result;
+    gameOver(result);
+  }
+
+  get allAudios() {
+    return [
+      this.EarnedCoinAudio,
+      this.EarnedBottleAudio,
+      this.HurtAudio,
+      this.JumpAudio,
+      this.ThrowBottleAudio,
+      this.ChickenDeadAudio,
+      this.EndbossDeadAudio,
+      this.SnoringAudio,
+    ];
+  }
+
+  toggleSound() {
+    this.isMuted = !this.isMuted;
+    this.allAudios.forEach((audio) => (audio.muted = this.isMuted));
   }
 }

@@ -92,7 +92,6 @@ class Character extends MovableObject {
   sound;
   currentImage = 0;
 
-
   constructor(sound) {
     super();
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
@@ -113,6 +112,7 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
+      if (!this.world) return; // ← warten bis world gesetzt ist
       this.checkDirection();
       this.world.camera_x = Math.max(
         -this.world.level.level_end_x,
@@ -122,12 +122,17 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
+      if (!this.world) return;
       this.ifPepeIsAboveGround();
     }, 300);
+
     setInterval(() => {
+      if (!this.world) return;
       this.ifPepeIsInactive();
     }, 1000);
+
     setInterval(() => {
+      if (!this.world) return;
       this.ifPepeIsInAction();
     }, 100);
   }
@@ -137,7 +142,6 @@ class Character extends MovableObject {
     this.ifPepeIsWalkingLeft();
     this.ifPepeIsJumping();
   }
-
 
   ifPepeIsFalling() {
     if (this.isAboveGround()) {
@@ -217,12 +221,19 @@ class Character extends MovableObject {
   }
 
   ifPepeIsDead() {
-    this.world.clearIntervals();
     this.playAnimation(this.IMAGES_DEAD);
-    this.world.showGameOverImage();
-    setInterval(() => {
+    const fallInterval = setInterval(() => {
       this.y += 10;
     }, 50);
-    this.world.leaveGame("lost", 0);
+    setTimeout(() => {
+      clearInterval(fallInterval);
+      this.world.showGameOverScreen("lost");
+    }, 1000);
+  }
+  
+  hit() {
+    this.energy -= 10; // mehr Schaden pro Treffer
+    if (this.energy < 0) this.energy = 0;
+    else this.lastHit = new Date().getTime();
   }
 }

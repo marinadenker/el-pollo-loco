@@ -15,28 +15,28 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('img/epl_background.png');
+    background-image: url('img/epl_background_2.png');
     color: #352522;
 }
 
-/* h1 {
+h1 {
     font-size: 64px;
     margin: 0;
-    padding: 190px 0 100px 0;
-} */
+    padding: 120px 0 40px 0;
+}
 
-/* body::-webkit-scrollbar {
+body::-webkit-scrollbar {
     display: none;
-} */
+}
 
 canvas {
     display: block;
-    background-color: black;
+    background-color: rgba(53, 37, 34, 0.1);
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.6);
 }
 
@@ -44,12 +44,12 @@ canvas {
     display: flex;
     justify-content: end;
     position: relative;
+    background: transparent;
 }
 
 .fullscreen {
     width: 100dvw;
     height: 100dvh;
-    background-color: #000000f0;
     position: absolute;
     top: 0;
     left: 0;
@@ -59,6 +59,7 @@ canvas {
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
+    background: transparent;
 }
 
 .d-none {
@@ -75,6 +76,10 @@ button {
 p {
     font-family: "Boogaloo";
     margin: 4px;
+}
+
+h2 {
+    color: #f4d6bc;
 }
 
 h3 {
@@ -107,6 +112,7 @@ h3 {
     left: 0;
     height: 100%;
     width: 100%;
+    background-color: rgba(53, 37, 34, 0.8);
 }
 
 .btn {
@@ -168,7 +174,13 @@ h3 {
     width: calc(100% - 80px);
     height: calc(100% - 32px);
     z-index: 1;
-    background-color: white;
+    background-image: url(img/overlay_bg.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #352522;
+    border: 2px solid #653f23;
+    color: #fff;
     padding: 16px 40px;
     overflow-y: scroll;
 }
@@ -182,12 +194,106 @@ h3 {
 .close-btn {
     background-color: transparent;
     font-size: 30px;
-    transition: color 1s;
+    color: #fff;
+}
+
+a {
+    color: #eea86b;
 }
 
 .game-explanation {
     display: flex;
     flex-direction: column;
+}
+
+table {
+    width: 400px;
+    font-family: "Boogaloo";
+}
+
+table img {
+    width: 32px;
+    height: 32px;
+}
+
+.table-img {
+    display: flex;
+    align-items: center;
+}
+
+#game-btns {
+    opacity: 0;
+    position: absolute;
+    width: 200px;
+    height: 56px;
+    bottom: 2px;
+    left: 250px;
+}
+
+#game-btns:hover {
+    opacity: 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(53, 37, 34, 0.6);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.6);
+}
+
+.game-btns img {
+    width: 32px;
+    height: 32px;
+}
+
+.won-img {
+    height: 300px;
+}
+
+.gameover-img {
+    height: 200px;
+    padding-top: 64px;
+}
+
+.lost-img {
+    height: 260px;
+}
+
+/* .game-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+    padding: 40px;
+} */
+
+.leave-options {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.game-result-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.overlay-bg {
+    background-image: url(img/overlay_bg.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #352522;
+
 }
 
 

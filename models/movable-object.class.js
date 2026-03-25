@@ -73,13 +73,13 @@ class MovableObject extends DrawableObject {
     if (this.energy < 0) {
       this.energy = 0;
     } else {
-      this.lastHit = new Date().getTime(); //speichert Zeit in Zahlenform
+      this.lastHit = new Date().getTime();
     }
   }
 
   isHurt() {
-    let timepassed = new Date().getTime() - this.lastHit; // difference in ms
-    timepassed = timepassed / 1000; // difference in s
+    let timepassed = new Date().getTime() - this.lastHit;
+    timepassed = timepassed / 1000;
     return timepassed < 1;
   }
 
@@ -113,6 +113,7 @@ class MovableObject extends DrawableObject {
 
   jump() {
     this.speedY = 30;
+    this.world.JumpAudio.play();
   }
 
 
@@ -122,7 +123,7 @@ class MovableObject extends DrawableObject {
       this.currentImage++;
       this.animationFrameCounter = 0;
     }
-    let i = this.currentImage % images.length; // orientierung der ani an länge des arrays
+    let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
   }
