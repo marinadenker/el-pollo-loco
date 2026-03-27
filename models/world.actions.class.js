@@ -32,7 +32,7 @@ class WorldActions {
   handleEndbossCollision(enemy) {
     if (enemy.currentState !== "hurt" && enemy.currentState !== "dead") {
       enemy.changeState("attack");
-      this.world.EndbossAttacksAudio.play();
+      this.world.playSound(this.world.endbossAttacksAudio);
     }
     this.hurtCharacterByEnemy(enemy);
   }
@@ -113,7 +113,9 @@ class WorldActions {
     enemy.isAlive = false;
 
     enemy.playAnimation(enemy.IMAGES_DEAD);
-    this.world.ChickenDeadAudio.play();
+    
+    
+    this.world.playSound(this.world.chickenDeadAudio);
 
     if (ThrowableObject && ThrowableObject.IMAGES_SPLASHING) {
       let splashCounter = 0;
@@ -134,7 +136,7 @@ class WorldActions {
   checkCollisionWithCoin() {
     this.world.level.coins.forEach((coin) => {
       if (this.world.character.isColliding(coin)) {
-        this.world.EarnedCoinAudio.play();
+        this.world.playSound(this.world.earnedCoinAudio);
         this.world.collectedCoins += 12.5;
         this.world.statusBarCoins.setPercentage(
           this.world.collectedCoins,
@@ -152,7 +154,7 @@ class WorldActions {
   checkCollisionWithBottle() {
     this.world.level.bottles.forEach((bottle) => {
       if (this.world.character.isColliding(bottle)) {
-        this.world.EarnedBottleAudio.play();
+        this.world.playSound(this.world.earnedBottleAudio);
 
         const index = this.world.level.bottles.findIndex(
           (b) => b.number === bottle.number,
@@ -177,7 +179,7 @@ class WorldActions {
     if (timeSinceLastHit < 1000) return;
 
     this.world.character.hit();
-    this.world.HurtAudio.play();
+    this.world.playSound(this.world.hurtAudio);
     this.currentEnemy = enemy.number;
   }
 
@@ -218,7 +220,7 @@ class WorldActions {
       this.world.statusBarBottles.IMAGES_BOTTLES,
     );
 
-    this.world.ThrowBottleAudio.play();
+    this.world.playSound(this.world.throwBottleAudio);
   }
 
   checkCollisionWithThrowableBottles() {
@@ -256,7 +258,7 @@ class WorldActions {
   }
 
   killEndboss(enemy, bottle) {
-    this.world.EndbossDeadAudio.play();
+    this.world.playSound(this.world.endbossDeadAudio);
     enemy.isAlive = false;
     enemy.speed = 0;
     enemy.currentState = "dead";

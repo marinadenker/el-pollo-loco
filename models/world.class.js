@@ -24,19 +24,20 @@ class World {
   endbossAttacking = false;
   collectedCoins = 0;
 
-  EarnedCoinAudio = new Audio("audio/coin.mp3");
-  EarnedBottleAudio = new Audio("audio/collect.mp3");
-  HurtAudio = new Audio("audio/ouch.mp3");
-  JumpAudio = new Audio("audio/jump.mp3");
-  ThrowBottleAudio = new Audio("audio/throw.mp3");
-  BottleHitAudio = new Audio("audio/");
-  ChickenDeadAudio = new Audio("audio/chicken.mp3");
-  EndbossAttacksAudio = new Audio("audio/endboss_attack.mp3");
-  EndbossDeadAudio = new Audio("audio/endboss_dead.mp3");
-  SnoringAudio = new Audio("audio/snoring.mp3");
+  earnedCoinAudio = new Audio("audio/coin.mp3");
+  earnedBottleAudio = new Audio("audio/collect.mp3");
+  hurtAudio = new Audio("audio/ouch.mp3");
+  jumpAudio = new Audio("audio/jump.mp3");
+  throwBottleAudio = new Audio("audio/throw.mp3");
+  bottleHitAudio = new Audio();
+  chickenDeadAudio = new Audio("audio/chicken.mp3");
+  endbossAttacksAudio = new Audio("audio/endboss_attack.mp3");
+  endbossDeadAudio = new Audio("audio/endboss_dead.mp3");
+  snoringAudio = new Audio("audio/snoring.mp3");
+  backgroundMusic = new Audio("audio/mixkit-summer-fun-13.mp3");
 
-  constructor(canvas, keyboard, backgroundMusic) {
-    this.backgroundMusic = backgroundMusic;
+  constructor(canvas, keyboard) {
+    this.backgroundMusic.play();
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
@@ -213,19 +214,27 @@ class World {
 
   get allAudios() {
     return [
-      this.EarnedCoinAudio,
-      this.EarnedBottleAudio,
-      this.HurtAudio,
-      this.JumpAudio,
-      this.ThrowBottleAudio,
-      this.ChickenDeadAudio,
-      this.EndbossDeadAudio,
-      this.SnoringAudio,
+      this.earnedCoinAudio,
+      this.earnedBottleAudio,
+      this.hurtAudio,
+      this.jumpAudio,
+      this.throwBottleAudio,
+      this.chickenDeadAudio,
+      this.endbossDeadAudio,
+      this.endbossAttacksAudio,
+      this.endbossDeadAudio,
+      this.snoringAudio,
+      this.backgroundMusic,
     ];
   }
 
   toggleSound() {
     this.isMuted = !this.isMuted;
     this.allAudios.forEach((audio) => (audio.muted = this.isMuted));
+  }
+
+  playSound(audio) {
+    audio.muted = this.isMuted;
+    audio.play();
   }
 }

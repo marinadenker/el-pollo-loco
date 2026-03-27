@@ -2,7 +2,6 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let currentLevel = 1;
-let backgroundMusic = new Audio("audio/mixkit-summer-fun-13.mp3");
 let gameResult = null;
 
 function init() {
@@ -16,7 +15,6 @@ function init() {
   }
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-  backgroundMusic.play();
 }
 
 /**
@@ -67,11 +65,6 @@ window.addEventListener("keyup", (event) => {
   }
 });
 
-function playBackgroundMusic() {
-  backgroundMusicInterval = setInterval(() => {
-    playSound(backgroundMusic, 0.1);
-  }, 1000 / 60);
-}
 
 /**
  * prevents default.
@@ -163,7 +156,6 @@ function restartGame() {
 function toggleSoundBtn() {
   const btn = document.getElementById("sound-btn");
   world.toggleSound();
-  backgroundMusic.muted = world.isMuted;
 
   btn.innerHTML = world.isMuted
     ? '<img src="img/icons/volume_off.svg">'
@@ -202,8 +194,8 @@ function showWonScreen() {
 function exitGame() {
   gameResult = null;
   world.cleanUp();
-  backgroundMusic.pause();
-  backgroundMusic.currentTime = 0;
+  world.backgroundMusic.pause();
+  world.backgroundMusic.currentTime = 0;
   document.getElementById("game-result-overlay").classList.add("d-none");
   document.getElementById("landingscreen").classList.remove("d-none");
   document.getElementById("game-btns").classList.add("d-none");

@@ -100,7 +100,7 @@ h3 {
 }
 
 .wood-btn:hover {
-    font-size: 19px;
+    transform: scale(1.05);
 }
 
 .landingscreen {
@@ -179,7 +179,6 @@ h3 {
     background-position: center;
     background-repeat: no-repeat;
     background-color: #352522;
-    border: 2px solid #653f23;
     color: #fff;
     padding: 16px 40px;
     overflow-y: scroll;
