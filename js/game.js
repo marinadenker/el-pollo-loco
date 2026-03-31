@@ -75,70 +75,76 @@ function preventDefault(e) {
   }
 }
 
-/**
- * ontouchstart, the specific keyboard functions are set to true.
- */
-document.getElementById("move-left-btn").addEventListener("touchstart", (e) => {
-  preventDefault(e);
-  keyboard.LEFT = true;
-});
+document.addEventListener("DOMContentLoaded", () => {
+  /**
+   * ontouchstart, the specific keyboard functions are set to true.
+   */
+  document
+    .getElementById("move-left-btn")
+    .addEventListener("touchstart", (e) => {
+      preventDefault(e);
+      keyboard.LEFT = true;
+    });
 
-/**
- * ontouchend, the specific keyboard functions are set to false.
- */
-document.getElementById("move-left-btn").addEventListener("touchend", (e) => {
-  preventDefault(e);
-  keyboard.LEFT = false;
-});
-
-/**
- * ontouchstart, the specific keyboard functions are set to true.
- */
-document
-  .getElementById("move-right-btn")
-  .addEventListener("touchstart", (e) => {
+  /**
+   * ontouchend, the specific keyboard functions are set to false.
+   */
+  document.getElementById("move-left-btn").addEventListener("touchend", (e) => {
     preventDefault(e);
-    keyboard.RIGHT = true;
+    keyboard.LEFT = false;
   });
 
-/**
- * ontouchend, the specific keyboard functions are set to false.
- */
-document.getElementById("move-right-btn").addEventListener("touchend", (e) => {
-  preventDefault(e);
-  keyboard.RIGHT = false;
-});
+  /**
+   * ontouchstart, the specific keyboard functions are set to true.
+   */
+  document
+    .getElementById("move-right-btn")
+    .addEventListener("touchstart", (e) => {
+      preventDefault(e);
+      keyboard.RIGHT = true;
+    });
 
-/**
- * ontouchstart, the specific keyboard functions are set to true.
- */
-document.getElementById("jump-btn").addEventListener("touchstart", (e) => {
-  preventDefault(e);
-  keyboard.UP = true;
-});
+  /**
+   * ontouchend, the specific keyboard functions are set to false.
+   */
+  document
+    .getElementById("move-right-btn")
+    .addEventListener("touchend", (e) => {
+      preventDefault(e);
+      keyboard.RIGHT = false;
+    });
 
-/**
- * ontouchend, the specific keyboard functions are set to false.
- */
-document.getElementById("jump-btn").addEventListener("touchend", (e) => {
-  preventDefault(e);
-  keyboard.UP = false;
-});
+  /**
+   * ontouchstart, the specific keyboard functions are set to true.
+   */
+  document.getElementById("jump-btn").addEventListener("touchstart", (e) => {
+    preventDefault(e);
+    keyboard.UP = true;
+  });
 
-/**
- * ontouchstart, the specific keyboard functions are set to true.
- */
-document.getElementById("throw-btn").addEventListener("touchstart", (e) => {
-  preventDefault(e);
-  keyboard.D = true;
-});
+  /**
+   * ontouchend, the specific keyboard functions are set to false.
+   */
+  document.getElementById("jump-btn").addEventListener("touchend", (e) => {
+    preventDefault(e);
+    keyboard.UP = false;
+  });
 
-/**
- * ontouchend, the specific keyboard functions are set to false.
- */
-document.getElementById("throw-btn").addEventListener("touchend", (e) => {
-  preventDefault(e);
-  keyboard.D = false;
+  /**
+   * ontouchstart, the specific keyboard functions are set to true.
+   */
+  document.getElementById("throw-btn").addEventListener("touchstart", (e) => {
+    preventDefault(e);
+    keyboard.D = true;
+  });
+
+  /**
+   * ontouchend, the specific keyboard functions are set to false.
+   */
+  document.getElementById("throw-btn").addEventListener("touchend", (e) => {
+    preventDefault(e);
+    keyboard.D = false;
+  });
 });
 
 function toggleOverlay(overlayId, getContentFn) {
