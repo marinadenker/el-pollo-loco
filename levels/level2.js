@@ -16,8 +16,6 @@ function initLevel2(){
         new BabyChicken(9),
         new BabyChicken(10),
         new BabyChicken(11),
-        new BabyChicken(12),
-        new BabyChicken(13),
         new Endboss()
     ], [
         new Cloud(0),

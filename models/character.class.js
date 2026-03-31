@@ -232,7 +232,7 @@ class Character extends MovableObject {
   }
   
   hit() {
-    this.energy -= 10; // mehr Schaden pro Treffer
+    this.energy -= 10;
     if (this.energy < 0) this.energy = 0;
     else this.lastHit = new Date().getTime();
   }

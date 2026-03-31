@@ -7,6 +7,7 @@ let gameResult = null;
 function init() {
   document.getElementById("landingscreen").classList.add("d-none");
   document.getElementById("game-btns").classList.remove("d-none");
+  document.getElementById("mobile-btns").classList.remove("d-none");
 
   if (currentLevel == 1) {
     initLevel1();
@@ -155,17 +156,23 @@ function toggleOverlay(overlayId, getContentFn) {
 
 function restartGame() {
   gameResult = null;
+  const wasMuted = world?.isMuted || false;
   exitGame();
   init();
+  if (wasMuted) world.toggleSound();
+  updateSoundBtn();
 }
 
-function toggleSoundBtn() {
+function updateSoundBtn() {
   const btn = document.getElementById("sound-btn");
-  world.toggleSound();
-
   btn.innerHTML = world.isMuted
     ? '<img src="img/icons/volume_off.svg">'
     : '<img src="img/icons/volume_up.svg">';
+}
+
+function toggleSoundBtn() {
+  world.toggleSound();
+  updateSoundBtn();
 }
 
 function gameOver(result) {
