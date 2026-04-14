@@ -83,10 +83,6 @@ class MovableObject extends DrawableObject {
     return timepassed < 1;
   }
 
-
-  /**
-   * Handles character animation and camera movement.
-   */
   animate() {
     setInterval(() => {
       this.world.camera_x = -this.x + 100;
@@ -105,17 +101,18 @@ class MovableObject extends DrawableObject {
     this.x += this.speed;
   }
 
+  /**
+   * Moves object to the left.
+   */
   moveLeft() {
     this.otherDirection = true;
     this.x -= this.speed;
   }
 
-
   jump() {
     this.speedY = 30;
     this.world.playSound(this.world.jumpAudio);
   }
-
 
   playAnimation(images, frameSpeed = 1) {
     this.animationFrameCounter = (this.animationFrameCounter || 0) + frameSpeed;

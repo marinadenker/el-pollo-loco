@@ -16,7 +16,7 @@ function getExplanationOverlay() {
           <tr>
             <td class="table-img"><img src="img/icons/arrow_up.svg"></td>
             <td>Jump:</td>
-            <td>Spacebar</td>
+            <td>Arrow Up Key</td>
           </tr>
           <tr>
             <td class="table-img"><img src="img/icons/throw_icon.svg"></td>
