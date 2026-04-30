@@ -213,26 +213,20 @@ table img {
 }
 
 #game-btns {
-    opacity: 0;
     position: absolute;
-    width: 200px;
-    height: 56px;
-    top: 2px;
-    left: 250px;
-}
-
-#game-btns:hover {
-    opacity: 1;
+    width: 40px;
+    height: 80px;
+    right: 16px;
+    top: 50px;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: rgba(53, 37, 34, 0.6);
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .game-btns img {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
 }
 
 .won-img {

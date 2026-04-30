@@ -112,7 +112,7 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      if (!this.world) return; // ← warten bis world gesetzt ist
+      if (!this.world) return; 
       this.checkDirection();
       this.world.camera_x = Math.max(
         -this.world.level.level_end_x,

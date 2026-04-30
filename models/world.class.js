@@ -129,7 +129,7 @@ class World {
 
     this.ctx.translate(-this.camera_x, 0);
 
-    let self = this; //draw wird immer wieder aufgerufen
+    let self = this;
     this.gameLoopId = requestAnimationFrame(function () {
       self.draw();
     });
