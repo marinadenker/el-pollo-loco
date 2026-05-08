@@ -18,10 +18,11 @@ class World {
   ctx;
   keyboard;
   throwableObjects = [];
-  lastAction = new Date().getTime();
+  lastAction = Date.now();
   worldActions = new WorldActions();
   endbossAlert = false;
   endbossAttacking = false;
+  endbossRetreating = false;
   collectedCoins = 0;
 
   earnedCoinAudio = new Audio("audio/coin.mp3");
@@ -50,29 +51,16 @@ class World {
   }
 
   checkLevel() {
-    if (currentLevel == 1) {
-      this.getLevel1();
-    } else {
-      this.getLevel2();
-    }
+    this.loadLevel(currentLevel == 1 ? level1 : level2);
   }
 
-  getLevel1() {
-    this.level = level1;
-    this.enemies = level1.enemies;
-    this.clouds = level1.clouds;
-    this.backgroundObjects = level1.backgroundObjects;
-    this.coins = level1.coins;
-    this.bottles = level1.bottles;
-  }
-
-  getLevel2() {
-    this.level = level2;
-    this.enemies = level2.enemies;
-    this.clouds = level2.clouds;
-    this.backgroundObjects = level2.backgroundObjects;
-    this.coins = level2.coins;
-    this.bottles = level2.bottles;
+  loadLevel(level) {
+    this.level = level;
+    this.enemies = level.enemies;
+    this.clouds = level.clouds;
+    this.backgroundObjects = level.backgroundObjects;
+    this.coins = level.coins;
+    this.bottles = level.bottles;
   }
 
   objectsStartMoving() {
@@ -168,7 +156,7 @@ class World {
   }
 
   trackInactivity() {
-    this.lastAction = new Date().getTime();
+    this.lastAction = Date.now();
   }
 
   PepeIsSleeping() {
@@ -222,7 +210,6 @@ class World {
       this.chickenDeadAudio,
       this.endbossDeadAudio,
       this.endbossAttacksAudio,
-      this.endbossDeadAudio,
       this.snoringAudio,
       this.backgroundMusic,
     ];

@@ -60,23 +60,14 @@ class WorldActions {
   }
 
   updateEndbossState(endboss, distance) {
-    if (
-      !endboss.isAlive ||
-      endboss.currentState === "hurt" ||
-      endboss.currentState === "dead"
-    )
+    if ( !endboss.isAlive || endboss.currentState === "hurt" ||endboss.currentState === "dead")
       return;
-    if (distance < 50) {
-      endboss.speed = 0;
-      return;
-    }
+    if (this.world.endbossRetreating) return;
+    if (distance < 50) {endboss.speed = 0; return;}
+
     if (distance <= 350 && !this.world.endbossAttacking) {
       this.letEndbossAttack(endboss);
-    } else if (
-      distance <= 500 &&
-      !this.world.endbossAlert &&
-      !this.world.endbossAttacking
-    ) {
+    } else if (distance <= 500 && !this.world.endbossAlert && !this.world.endbossAttacking) {
       this.letEndbossBeAlert(endboss);
     }
   }
@@ -96,37 +87,37 @@ class WorldActions {
 
     setTimeout(() => {
       if (!endboss.isAlive) return;
-      endboss.speed = 0;
+      endboss.speed = -10;
+      this.world.endbossRetreating = true;
       endboss.changeState("alert");
-      this.world.endbossAttacking = false;
 
       setTimeout(() => {
         if (!endboss.isAlive) return;
+        endboss.speed = 0;
+        this.world.endbossAttacking = false;
         this.world.endbossAlert = false;
-      }, 2000);
+        this.world.endbossRetreating = false;
+      }, 800);
     }, 1000);
+  }
+
+  playSplashAnimation(throwableObject) {
+    if (!throwableObject?.IMAGES_SPLASHING) return;
+    let counter = 0;
+    const interval = setInterval(() => {
+      throwableObject.playAnimation(throwableObject.IMAGES_SPLASHING);
+      if (++counter >= 10) clearInterval(interval);
+    }, 100);
   }
 
   async killEnemy(enemy, ThrowableObject) {
     enemy.speed = 0;
     enemy.y = 480 - enemy.height;
     enemy.isAlive = false;
-
     enemy.playAnimation(enemy.IMAGES_DEAD);
-    
-    
     this.world.playSound(this.world.chickenDeadAudio);
 
-    if (ThrowableObject && ThrowableObject.IMAGES_SPLASHING) {
-      let splashCounter = 0;
-      const splashInterval = setInterval(() => {
-        ThrowableObject.playAnimation(ThrowableObject.IMAGES_SPLASHING);
-        splashCounter++;
-        if (splashCounter >= 10) {
-          clearInterval(splashInterval);
-        }
-      }, 100);
-    }
+    this.playSplashAnimation(ThrowableObject);
   }
 
   enemyIsNormalChicken(enemy) {
@@ -142,11 +133,10 @@ class WorldActions {
           this.world.collectedCoins,
           this.world.statusBarCoins.IMAGES_COINS,
         );
-        for (let index = 0; index < this.world.coins.length; index++) {
-          if (coin.number == this.world.coins[index].number) {
-            this.world.coins.splice(index, 1);
-          }
-        }
+        const index = this.world.level.coins.findIndex(
+          (c) => c.number === coin.number,
+        );
+        if (index !== -1) this.world.level.coins.splice(index, 1);
       }
     });
   }
@@ -174,8 +164,7 @@ class WorldActions {
   }
 
   hurtCharacter(enemy) {
-    const timeSinceLastHit =
-      new Date().getTime() - this.world.character.lastHit;
+    const timeSinceLastHit = Date.now() - this.world.character.lastHit;
     if (timeSinceLastHit < 1000) return;
 
     this.world.character.hit();
@@ -242,7 +231,11 @@ class WorldActions {
   hurtEndboss(enemy, bottle) {
     enemy.isHitting = true;
     enemy.hit();
-    this.world.updateStatusbar(this.world.statusBarEndboss, enemy.energy, this.world.statusBarEndboss.IMAGES_ENDBOSS,);
+    this.world.updateStatusbar(
+      this.world.statusBarEndboss,
+      enemy.energy,
+      this.world.statusBarEndboss.IMAGES_ENDBOSS,
+    );
     const index = this.world.throwableObjects.indexOf(bottle);
     if (index !== -1) {
       this.world.throwableObjects.splice(index, 1);
@@ -262,15 +255,7 @@ class WorldActions {
     enemy.isAlive = false;
     enemy.speed = 0;
     enemy.currentState = "dead";
-
-    if (bottle && bottle.IMAGES_SPLASHING) {
-      let splashCounter = 0;
-      const splashInterval = setInterval(() => {
-        bottle.playAnimation(bottle.IMAGES_SPLASHING);
-        splashCounter++;
-        if (splashCounter >= 10) clearInterval(splashInterval);
-      }, 100);
-    }
+    this.playSplashAnimation(bottle);
 
     clearInterval(enemy.animation);
     enemy.currentImage = 0;

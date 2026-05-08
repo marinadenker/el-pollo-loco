@@ -109,6 +109,11 @@ class MovableObject extends DrawableObject {
     this.x -= this.speed;
   }
 
+  moveBack() {
+    this.otherDirection = false; 
+    this.x += Math.abs(this.speed);
+  }
+
   jump() {
     this.speedY = 30;
     this.world.playSound(this.world.jumpAudio);

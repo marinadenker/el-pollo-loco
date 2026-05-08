@@ -223,6 +223,7 @@ function showWonScreen() {
  */
 function exitGame() {
   gameResult = null;
+  currentLevel = 1;
   world.cleanUp();
   world.backgroundMusic.pause();
   world.backgroundMusic.currentTime = 0;
