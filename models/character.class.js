@@ -238,6 +238,8 @@ class Character extends MovableObject {
       this.playAnimation(this.IMAGES_IDLE);
     } else if (this.isSleeping) {
       this.playSleepingAnimation();
+    } else if (!this.isAboveGround() && Date.now() > this.world.lastAction) {
+      this.playAnimation(this.IMAGES_IDLE);
     }
   }
 

@@ -149,11 +149,11 @@ h3 {
     width: calc((100% - 720px) / 2);
 }
 
-.mobile-btns {
+#mobile-btns {
     display: none;
     justify-content: space-evenly;
     left: 0;
-    bottom: 20px;
+    bottom: 0;
     position: fixed;
     width: 100vw;
     margin: 0;
@@ -311,7 +311,7 @@ table img {
     }
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 900px) {
     canvas {
         width: 100%;
     }
