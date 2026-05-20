@@ -247,6 +247,7 @@ class Character extends MovableObject {
    */
   playSleepingAnimation() {
     this.playAnimation(this.IMAGES_LONG_IDLE);
+    this.world.playSound(this.world.snoringAudio);
   }
 
 
