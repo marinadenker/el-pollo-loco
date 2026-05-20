@@ -67,8 +67,8 @@ class Endboss extends MovableObject {
   currentImage = 0;
 
   /**
-   * Represents the endboss.
-   * @constructor
+   * Creates the endboss at x=2450, loads all animation image sets,
+   * and starts the animation loop if alive.
    */
   constructor() {
     super();
@@ -85,6 +85,12 @@ class Endboss extends MovableObject {
     }
   }
 
+
+  /**
+   * Starts the endboss movement and animation loops.
+   * - Runs the current state animation immediately.
+   * - 60fps interval: moves left normally, or retreats (`moveBack`) when `speed` is negative.
+   */  
   animate() {
     this.animateCurrentState();
     setInterval(() => {
@@ -97,12 +103,24 @@ class Endboss extends MovableObject {
     }, 1000 / 60);
   }
 
+
+  /**
+   * Transitions the endboss to a new state and restarts the animation.
+   * Does nothing if the endboss is already in the requested state.
+   * @param {"walking"|"alert"|"attack"|"hurt"|"dead"} newState - The state to transition to.
+   */  
   changeState(newState) {
     if (this.currentState === newState) return;
     this.currentState = newState;
     this.animateCurrentState();
   }
 
+
+  /**
+   * Clears the current animation interval and starts the correct one
+   * for `currentState`. The "dead" state intentionally runs no animation
+   * (handled externally by {@link WorldActions#killEndboss}).
+   */  
   animateCurrentState() {
     if (this.animation) {
       clearInterval(this.animation);
@@ -119,24 +137,42 @@ class Endboss extends MovableObject {
     }
   }
 
+
+  /**
+   * Starts the walking animation loop at 300ms per frame.
+   */  
   endbossWalks() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
     }, 300);
   }
 
+
+  /**
+   * Starts the alert animation loop at 300ms per frame.
+   */  
   endbossAlerted() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_ALERT);
     }, 300);
   }
 
+
+  /**
+   * Starts the attack animation loop at 250ms per frame with a `frameSpeed` of 5
+   * for a faster, more aggressive look.
+   */  
   endbossAttacks() {
     this.animation = setInterval(() => {
       this.playAnimation(this.IMAGES_ATTACKING, 5);
     }, 250);
   }
 
+
+  /**
+   * Immediately stops the current animation and starts the hurt animation loop.
+   * Called directly (bypassing `changeState`) so it interrupts any ongoing state.
+   */  
   endbossIsHurt() {
     clearInterval(this.animation);
     this.animation = setInterval(() => {
@@ -144,10 +180,19 @@ class Endboss extends MovableObject {
     }, 300);
   }
 
+
+  /**
+   * Reduces energy by 20, clamps to 0, records the hit timestamp,
+   * and switches to the hurt state. After 1 second, transitions back to
+   * walking — unless the endboss has since died.
+   * @returns {Promise<void>} Resolves immediately after setup; the state reset is async.
+   */  
   hit() {
     return new Promise((resolve) => {
       this.energy -= 20;
-      if (this.energy < 0) this.energy = 0;
+      if (this.energy < 0) {
+      this.energy = 0;
+      }
       this.lastHit = new Date().getTime();
       this.currentState = "hurt";
       this.endbossIsHurt();

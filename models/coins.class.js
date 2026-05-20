@@ -12,10 +12,13 @@ class Coin extends MovableObject {
 
   currentImage = 0;
 
+
   /**
-   * Represents a coin
-   * @constructor
-   * @param {number} number - The number of the coin.
+   * Creates a coin at a random position and starts its animation.
+   * - x: random between 200 and 2200.
+   * - y: random between 180 and 360, keeping coins reachable by jumping.
+   * - Size: fixed at 80×80px.
+   * @param {number} number - Unique identifier assigned to this instance.
    */
   constructor(number) {
     super().loadImage("img/8_coin/coin_1.png");
@@ -28,8 +31,9 @@ class Coin extends MovableObject {
     this.animate();
   }
 
+  
   /**
-   * Animates the coin
+   * Alternates between the two turning frames every 400ms.
    */
   animate() {
     setInterval(() => {

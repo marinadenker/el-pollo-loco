@@ -42,6 +42,11 @@ class ThrowableObject extends MovableObject {
   }
 
 
+/**
+ * Launches the bottle by applying an upward impulse and gravity,
+ * then moves it horizontally at 10px per 25ms in the character's
+ * current facing direction (right if `otherDirection` is false, left otherwise).
+ */
   throw() {
     this.speedY = 30;
     this.applyGravity();
@@ -57,6 +62,10 @@ class ThrowableObject extends MovableObject {
   }
 
 
+/**
+ * Starts a looping animation at 100ms per frame for the given image set.
+ * @param {string[]} images - Ordered array of image paths to animate through.
+ */
   animate(images) {
     setInterval(() => {
       this.playAnimation(images);

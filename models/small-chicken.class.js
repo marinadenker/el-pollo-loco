@@ -19,10 +19,14 @@ class BabyChicken extends MovableObject {
 
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
+
   /**
-   * Represents a baby chicken.
-   * @constructor
-   * @param {number} number - Number of the baby chicken.
+   * Creates a baby chicken with randomised size, position, and speed.
+   * - Width: 20–50px; height scales at 1.2× width.
+   * - Spawns at a random x between 500 and 2000.
+   * - Walking speed: 0.15–0.65px per frame.
+   * - Top offset is set to -10 for very small chickens (height < 40px) to align the hitbox.
+   * @param {number} number - Unique identifier assigned to this instance.
    */
   constructor(number) {
     super();
@@ -42,7 +46,9 @@ class BabyChicken extends MovableObject {
   }
 
   /**
-   * Animates the baby chicken so that it walks towards the game character.
+   * Starts two loops for movement and animation:
+   * - 60fps interval: moves the chicken left by `walkingSpeed` while alive.
+   * - 270ms interval: advances the walking animation while alive.
    */
   animate() {
     this.movementInterval = setInterval(() => {

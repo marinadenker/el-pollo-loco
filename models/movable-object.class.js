@@ -16,8 +16,10 @@ class MovableObject extends DrawableObject {
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
   }
 
+
   /**
-   * Makes the object fall back to the ground when being in the air.
+   * Starts a gravity loop at 25fps that pulls the object downward when airborne.
+   * Sets `isFalling` to `true` while the object is descending.
    */
   applyGravity() {
     setInterval(() => {
@@ -33,8 +35,12 @@ class MovableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
+
   /**
-   * Returns true if object reaches the highest point or if it is a bottle.
+   * Returns `true` if the object should keep moving vertically.
+   * Always returns `true` for {@link ThrowableObject} (bottles fly freely);
+   * for all others, delegates to {@link isAboveGround}.
+   * @returns {boolean}
    */
   reachedVertexPoint() {
     if (this instanceof ThrowableObject) {
@@ -44,8 +50,11 @@ class MovableObject extends DrawableObject {
     }
   }
 
+
   /**
-   * Returns true if the element is above the y-coordiante of 200.
+   * Returns `true` if the object is above the ground threshold (y < 200).
+   * Always returns `true` for {@link ThrowableObject} instances.
+   * @returns {boolean}
    */
   isAboveGround() {
     if (this instanceof ThrowableObject) {
@@ -55,9 +64,12 @@ class MovableObject extends DrawableObject {
     }
   }
 
+
   /**
-   * returns whether the movable object is colliding with the other object.
-   * @param {MovableObject} mo - The movable object.
+   * Returns `true` if this object's hitbox overlaps with another movable object's hitbox.
+   * All four sides are checked using the objects' offset values.
+   * @param {MovableObject} mo - The other object to test against.
+   * @returns {boolean}
    */
   isColliding(mo) {
     return (
@@ -68,6 +80,11 @@ class MovableObject extends DrawableObject {
     );
   }
 
+
+  /**
+   * Reduces the object's energy by 1 and clamps it to 0.
+   * Records `lastHit` only if energy is still above 0 after the hit.
+   */
   hit() {
     this.energy -= 1;
     if (this.energy < 0) {
@@ -77,48 +94,83 @@ class MovableObject extends DrawableObject {
     }
   }
 
+
+  /**
+   * Returns `true` if the object was hit within the last second.
+   * Used to trigger hurt animations and prevent repeated damage.
+   * @returns {boolean}
+   */  
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
   }
 
+
+  /**
+   * Default animation loop stub that syncs the camera to this object's position.
+   * Overridden by subclasses with their own animation logic.
+   */  
   animate() {
     setInterval(() => {
       this.world.camera_x = -this.x + 100;
     }, 1000 / 10);
   }
 
+
+  /**
+   * Returns `true` if the object's energy has reached exactly 0.
+   * @returns {boolean}
+   */  
   isDead() {
     return this.energy == 0;
   }
 
+
   /**
-   * Moves object to the right.
+   * Moves the object to the right by `speed` pixels and sets `otherDirection` to `false`.
    */
   moveRight() {
     this.otherDirection = false;
     this.x += this.speed;
   }
 
+
   /**
-   * Moves object to the left.
+   * Moves the object to the left by `speed` pixels and sets `otherDirection` to `true`.
    */
   moveLeft() {
     this.otherDirection = true;
     this.x -= this.speed;
   }
 
+
+  /**
+   * Moves the object to the right using the absolute value of `speed`,
+   * without changing the facing direction. Used for endboss retreat movement.
+   */  
   moveBack() {
     this.otherDirection = false; 
     this.x += Math.abs(this.speed);
   }
 
+
+  /**
+   * Makes the object jump by setting `speedY` to 30 and playing the jump sound.
+   */  
   jump() {
     this.speedY = 30;
     this.world.playSound(this.world.jumpAudio);
   }
 
+
+  /**
+   * Advances the animation by one frame from the given image array.
+   * Supports fractional `frameSpeed` values for slower animations —
+   * the frame only advances once the internal counter reaches 1.
+   * @param {string[]} images - Ordered array of image paths forming the animation.
+   * @param {number} [frameSpeed=1] - How fast to advance frames; values below 1 slow the animation.
+   */  
   playAnimation(images, frameSpeed = 1) {
     this.animationFrameCounter = (this.animationFrameCounter || 0) + frameSpeed;
     if (this.animationFrameCounter >= 1) {

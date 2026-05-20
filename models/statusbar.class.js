@@ -38,10 +38,10 @@ class StatusBar extends DrawableObject {
   percentage = 100;
 
   /**
-   * Represents a statusbar.
-   * @constructor
-   * @param {string} barType - The type of the statusbar.
-   * @param {number} y - The y-coordinate of the statusbar.
+   * Creates a status bar at the given screen position and initialises it for the specified type.
+   * @param {"energy"|"coins"|"bottles"|"endboss"} barType - Determines the image set and starting percentage.
+   * @param {number} y - Vertical position in screen space (fixed, unaffected by camera).
+   * @param {number} x - Horizontal position in screen space (fixed, unaffected by camera).
    */
   constructor(barType, y, x) {
     super();
@@ -52,9 +52,12 @@ class StatusBar extends DrawableObject {
     this.getBarType(barType);
   }
 
+
   /**
-   * loads images and sets percentage based on the type of the statusbar.
-   * @param {string} barType - The type of the statusbar.
+   * Loads the correct image set for the given bar type and sets its initial percentage.
+   * - `"energy"` and `"endboss"` start full (100%).
+   * - `"coins"` and `"bottles"` start empty (0%).
+   * @param {"energy"|"coins"|"bottles"|"endboss"} barType - The type of status bar to initialise.
    */
   getBarType(barType) {
     if (barType == "energy") {
@@ -69,13 +72,14 @@ class StatusBar extends DrawableObject {
     } else if (barType == "endboss") {
       this.loadImages(this.IMAGES_ENDBOSS);
       this.setPercentage(100, this.IMAGES_ENDBOSS);
-  }
+    }
   }
 
   /**
-   * saves correct image to the variable path based on the percentage to which the bar is filled.
-   * @param {number} percentage - The percentage to which the bar is filled.
-   * @param {array} arr - The array of the images to animate statusbar based on percentage.
+   * Updates the status bar to reflect a new fill percentage
+   * by selecting the matching image from the provided array.
+   * @param {number} percentage - The current fill value (0–100).
+   * @param {string[]} arr - The image set to pick from, ordered lowest to highest fill.
    */
   setPercentage(percentage, arr) {
     this.percentage = percentage;
@@ -83,22 +87,25 @@ class StatusBar extends DrawableObject {
     this.img = this.imageCache[path];
   }
 
+
   /**
-   * returns the index of the image which represents the correct percentage.
+   * Maps `this.percentage` to one of six image indices (0–5)
+   * in steps of 20%, where 0 = empty and 5 = full.
+   * @returns {number} Index between 0 and 5.
    */
-resolveImageIndex() {
-  if (this.percentage >= 100) {
-    return 5;
-  } else if (this.percentage >= 80) {
-    return 4;
-  } else if (this.percentage >= 60) {
-    return 3;
-  } else if (this.percentage >= 40) {
-    return 2;
-  } else if (this.percentage >= 20) {
-    return 1;
-  } else {
-    return 0;
+  resolveImageIndex() {
+    if (this.percentage >= 100) {
+      return 5;
+    } else if (this.percentage >= 80) {
+      return 4;
+    } else if (this.percentage >= 60) {
+      return 3;
+    } else if (this.percentage >= 40) {
+      return 2;
+    } else if (this.percentage >= 20) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
-}
 }

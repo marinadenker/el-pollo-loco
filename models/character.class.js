@@ -92,6 +92,11 @@ class Character extends MovableObject {
   sound;
   currentImage = 0;
 
+  /**
+   * Creates a new Character instance, loads all animation images,
+   * applies gravity, and starts the animation loops.
+   * @param {SoundManager} sound - The sound manager used to play character audio.
+   */
   constructor(sound) {
     super();
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
@@ -110,14 +115,18 @@ class Character extends MovableObject {
     this.sound = sound;
   }
 
+  /**
+   * Starts all animation and movement interval loops for the character.
+   * - 60fps loop: handles directional movement and camera.
+   * - 300ms loop: handles above-ground jump animation.
+   * - 1000ms loop: handles idle/sleep states and death.
+   * - 100ms loop: handles in-action animations (walking, hurt).
+   */
   animate() {
     setInterval(() => {
-      if (!this.world) return; 
+      if (!this.world) return;
       this.checkDirection();
-      this.world.camera_x = Math.max(
-        -this.world.level.level_end_x,
-        -this.x + 100,
-      );
+      this.world.camera_x = Math.max(-this.world.level.level_end_x, -this.x + 100,);
       this.ifPepeIsFalling();
     }, 1000 / 60);
 
@@ -137,12 +146,20 @@ class Character extends MovableObject {
     }, 100);
   }
 
+  /**
+   * Checks and processes directional input each frame,
+   * delegating to walk and jump handlers.
+   */
   checkDirection() {
     this.ifPepeIsWalkingRight();
     this.ifPepeIsWalkingLeft();
     this.ifPepeIsJumping();
   }
 
+  /**
+   * Updates the character's sprite while falling, based on vertical speed thresholds.
+   * Plays landing or idle frames depending on how fast Pepe is descending.
+   */
   ifPepeIsFalling() {
     if (this.isAboveGround()) {
       if (this.speedY < 0 && this.speedY > -20) {
@@ -157,6 +174,11 @@ class Character extends MovableObject {
     }
   }
 
+
+  /**
+   * Moves Pepe to the right if the RIGHT key is held and the level boundary allows it.
+   * Resets the facing direction and resets the inactivity timer.
+   */
   ifPepeIsWalkingRight() {
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
       this.moveRight();
@@ -166,6 +188,11 @@ class Character extends MovableObject {
     }
   }
 
+
+  /**
+   * Moves Pepe to the left if the LEFT key is held and the position is within bounds.
+   * Sets the facing direction flag and resets the inactivity timer.
+   */
   ifPepeIsWalkingLeft() {
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
@@ -175,22 +202,35 @@ class Character extends MovableObject {
     }
   }
 
+
+  /**
+   * Makes Pepe jump if SPACE or UP is pressed and he is not already airborne.
+   * Resets the inactivity timer on jump.
+   */
   ifPepeIsJumping() {
     if (
-      (this.world.keyboard.SPACE && !this.isAboveGround()) ||
-      (this.world.keyboard.UP && !this.isAboveGround())
-    ) {
+      (this.world.keyboard.SPACE && !this.isAboveGround()) || (this.world.keyboard.UP && !this.isAboveGround())) {
       this.jump();
       this.world.trackInactivity();
     }
   }
 
+
+  /**
+   * Plays the jumping animation while Pepe is above ground and moving upward.
+   * Called on a 300ms interval.
+   */
   ifPepeIsAboveGround() {
     if (this.isAboveGround() && this.speedY > 0) {
       this.playAnimation(this.IMAGES_JUMPING);
     }
   }
 
+
+  /**
+   * Handles animation for inactive states: death, snoozing, and sleeping.
+   * Called on a 1000ms interval.
+   */ 
   ifPepeIsInactive() {
     if (this.isDead()) {
       this.ifPepeIsDead();
@@ -201,10 +241,20 @@ class Character extends MovableObject {
     }
   }
 
+
+  /**
+   * Plays the long idle (sleeping) animation sequence.
+   */
   playSleepingAnimation() {
     this.playAnimation(this.IMAGES_LONG_IDLE);
   }
 
+
+  /**
+   * Handles animation while Pepe is actively doing something (hurt or walking).
+   * Skips if Pepe is currently sleeping or snoozing.
+   * Called on a 100ms interval.
+   */
   ifPepeIsInAction() {
     if (this.isSleeping || this.isSnoozing) return;
     if (this.isHurt() && !this.isAboveGround()) {
@@ -214,12 +264,21 @@ class Character extends MovableObject {
     }
   }
 
+
+  /**
+   * Plays the walking animation if the LEFT or RIGHT key is currently pressed.
+   */  
   ifPepeIsWalking() {
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
     }
   }
 
+
+  /**
+   * Triggers the death sequence: plays the death animation, makes Pepe fall off-screen,
+   * and shows the game-over screen after a short delay.
+   */  
   ifPepeIsDead() {
     this.playAnimation(this.IMAGES_DEAD);
     const fallInterval = setInterval(() => {
@@ -230,7 +289,12 @@ class Character extends MovableObject {
       this.world.showGameOverScreen("lost");
     }, 1000);
   }
-  
+
+
+  /**
+   * Reduces the character's energy by 10 on each hit.
+   * Clamps energy to a minimum of 0 and records the timestamp of the last hit.
+   */  
   hit() {
     this.energy -= 10;
     if (this.energy < 0) this.energy = 0;

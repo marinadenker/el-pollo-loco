@@ -7,11 +7,12 @@ class Bottle extends MovableObject {
   };
   number;
 
+  
   /**
-   * Represents a bottle on the ground.
-   * @constructor
-   * @param {string} image - The path of the image of the bottle.
-   * * @param {number} number - The number of the bottle.
+   * Creates a ground bottle at a random x position with a fixed size of 80×80px.
+   * Adjusts the left/right hitbox offsets for the upright bottle image variant.
+   * @param {number} number - Unique identifier assigned to this instance.
+   * @param {string} image - Path to the bottle sprite image.
    */
   constructor(number, image) {
     super();

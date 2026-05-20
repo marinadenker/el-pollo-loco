@@ -22,6 +22,7 @@ function init() {
   world = new World(canvas, keyboard);
 }
 
+
 /**
  * On keydown, the corresponding keyboard flag is set to true.
  */
@@ -33,6 +34,7 @@ window.addEventListener("keydown", (event) => {
   if (event.code === "Space") keyboard.SPACE = true;
   if (event.code === "KeyD" && !event.repeat) keyboard.D = true;
 });
+
 
 /**
  * On keyup, the corresponding keyboard flag is set to false.
@@ -58,6 +60,7 @@ function preventDefault(e) {
   }
 }
 
+
 document.addEventListener("DOMContentLoaded", () => {
   /**
    * On touchstart on the left button, sets the LEFT keyboard flag to true.
@@ -69,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       keyboard.LEFT = true;
     });
 
+
   /**
    * On touchend on the left button, sets the LEFT keyboard flag to false.
    */
@@ -76,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     preventDefault(e);
     keyboard.LEFT = false;
   });
+
 
   /**
    * On touchstart on the right button, sets the RIGHT keyboard flag to true.
@@ -87,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
       keyboard.RIGHT = true;
     });
 
+
   /**
    * On touchend on the right button, sets the RIGHT keyboard flag to false.
    */
@@ -97,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
       keyboard.RIGHT = false;
     });
 
+
   /**
    * On touchstart on the jump button, sets the UP keyboard flag to true.
    */
@@ -104,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     preventDefault(e);
     keyboard.UP = true;
   });
+
 
   /**
    * On touchend on the jump button, sets the UP keyboard flag to false.
@@ -113,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     keyboard.UP = false;
   });
 
+
   /**
    * On touchstart on the throw button, sets the D keyboard flag to true.
    */
@@ -120,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     preventDefault(e);
     keyboard.D = true;
   });
+
 
   /**
    * On touchend on the throw button, sets the D keyboard flag to false.
@@ -129,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     keyboard.D = false;
   });
 });
+
 
 /**
  * Toggles the visibility of an overlay element. Optionally sets its inner HTML
@@ -142,6 +153,7 @@ function toggleOverlay(overlayId, getContentFn) {
   if (getContentFn) overlay.innerHTML = getContentFn();
   overlay.classList.toggle("d-none");
 }
+
 
 /**
  * Restarts the game from scratch. Preserves the current mute state,
@@ -157,6 +169,7 @@ function restartGame() {
   updateSoundBtn();
 }
 
+
 /**
  * Updates the sound toggle button icon to reflect the current mute state.
  * Shows a volume_off icon when muted, and volume_up when unmuted.
@@ -168,6 +181,7 @@ function updateSoundBtn() {
     : '<img src="img/icons/volume_up.svg">';
 }
 
+
 /**
  * Toggles the game sound on or off and updates the sound button icon accordingly.
  */
@@ -175,6 +189,7 @@ function toggleSoundBtn() {
   world.toggleSound();
   updateSoundBtn();
 }
+
 
 /**
  * Handles the end of the game by triggering either the loss or win sequence
@@ -188,6 +203,7 @@ function gameOver(result) {
     showWonScreen();
   }
 }
+
 
 /**
  * Shows the game-over screen immediately, then after a 3-second delay
@@ -205,6 +221,7 @@ function showLostSequence() {
   }, 3000);
 }
 
+
 /**
  * After a 3-second delay, exits the game and displays the "You Won" screen.
  */
@@ -216,6 +233,7 @@ function showWonScreen() {
     overlay.classList.remove("d-none");
   }, 3000);
 }
+
 
 /**
  * Cleans up the current game session: resets the game result, stops and resets
@@ -232,6 +250,7 @@ function exitGame() {
   document.getElementById("game-btns").classList.add("d-none");
   document.getElementById("mobile-btns").classList.add("d-none");
 }
+
 
 /**
  * Sets the current level and restarts the game to load that level.
