@@ -29,41 +29,37 @@
 </head>
 
 <body onload="">
-    
     <h1>El Pollo Loco</h1>
-
-<div id="fullscreen" class="game-container">
-    <div id="game-result-overlay" class="game-result-overlay overlay-bg d-none"></div>
-    <div id="landingscreen" class="landingscreen overlay-bg">
-        <button class="wood-btn" onclick="toggleOverlay('game-explanation', getExplanationOverlay)">Explanation</button>
-        <button class="wood-btn" onclick="init()">Start Game</button>
-        <button class="wood-btn" onclick="toggleOverlay('imprint', getImprintOverlay)">Imprint</button>
-    </div>
-    <div id="game-btns" class="game-btns d-none">
-        <button id="sound-btn" onclick="toggleSoundBtn()" class="toggle-sound-btn" title="Mute"><img src="img/icons/volume_up.svg"></button>
-        <button id="exit-game" onclick="exitGame()" class="exit-game-btn"><img src="img/icons/exit.svg" title="Exit"></button>
-    </div>
-    <!-- <button id="restart-game" onclick="restartGame()" class="restart-game-btn" title="Replay"><img src="img/icons/replay.svg"></button> -->
-
-    <canvas id="canvas" width="720" height="480"></canvas>
-    <div id="game-information">
-        <div id="game-explanation" class="overlay d-none"></div>
-        <div id="imprint" class="overlay d-none"></div>
-    </div>
-
-    
-    <div id="mobile-btns" class="mobile-btns d-none">
-        <div id="btns-left" class="wrapper-btns">
-            <div id="move-left-btn" class="btn"><img src="img/icons/arrow_left.svg"></div>
-            <div id="move-right-btn" class="btn"><img src="img/icons/arrow_right.svg"></div>
+    <div id="fullscreen" class="game-container">
+        <div id="game-result-overlay" class="game-result-overlay overlay-bg d-none"></div>
+        <div id="landingscreen" class="landingscreen overlay-bg">
+            <button class="wood-btn" onclick="toggleOverlay('game-explanation', getExplanationOverlay)">Explanation</button>
+            <button class="wood-btn" onclick="init()">Start Game</button>
+            <button class="wood-btn" onclick="toggleOverlay('imprint', getImprintOverlay)">Imprint</button>
         </div>
-        <div id="btns-right" class="wrapper-btns">
-            <div id="jump-btn" class="btn"><img src="img/icons/arrow_up.svg"></div>
-            <div id="throw-btn" class="btn"><img src="img/icons/throw_icon.svg"></div>
+        <div id="game-btns" class="game-btns d-none">
+            <button id="sound-btn" onclick="toggleSoundBtn()" class="toggle-sound-btn" title="Mute"><img src="img/icons/volume_up.svg"></button>
+            <button id="exit-game" onclick="exitGame()" class="exit-game-btn"><img src="img/icons/exit.svg" title="Exit"></button>
         </div>
-    </div>
 
-</div>
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <div id="game-information">
+            <div id="game-explanation" class="overlay d-none"></div>
+            <div id="imprint" class="overlay d-none"></div>
+        </div>
+
+        <div id="mobile-btns" class="mobile-btns d-none">
+            <div id="btns-left" class="wrapper-btns">
+                <div id="move-left-btn" class="btn"><img src="img/icons/arrow_left.svg"></div>
+                <div id="move-right-btn" class="btn"><img src="img/icons/arrow_right.svg"></div>
+            </div>
+            <div id="btns-right" class="wrapper-btns">
+                <div id="jump-btn" class="btn"><img src="img/icons/arrow_up.svg"></div>
+                <div id="throw-btn" class="btn"><img src="img/icons/throw_icon.svg"></div>
+            </div>
+        </div>
+
+    </div>
 
 
     <div id="portrait-mode" class="fullscreen">
