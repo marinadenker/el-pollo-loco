@@ -208,8 +208,7 @@ class Character extends MovableObject {
    * Resets the inactivity timer on jump.
    */
   ifPepeIsJumping() {
-    if (
-      (this.world.keyboard.SPACE && !this.isAboveGround()) || (this.world.keyboard.UP && !this.isAboveGround())) {
+    if ((this.world.keyboard.SPACE && !this.isAboveGround()) || (this.world.keyboard.UP && !this.isAboveGround())) {
       this.jump();
       this.world.trackInactivity();
     }
@@ -259,7 +258,13 @@ class Character extends MovableObject {
    * Called on a 100ms interval.
    */
   ifPepeIsInAction() {
-    if (this.isSleeping || this.isSnoozing) return;
+    if (this.isSleeping || this.isSnoozing) {
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.SPACE || this.world.keyboard.UP) {
+      this.isSleeping = false;
+      this.isSnoozing = false;
+    }
+    return;
+    }
     this.world.snoringAudio.pause();
     if (this.isHurt() && !this.isAboveGround()) {
       this.playAnimation(this.IMAGES_HURT);
@@ -273,7 +278,7 @@ class Character extends MovableObject {
    * Plays the walking animation if the LEFT or RIGHT key is currently pressed.
    */  
   ifPepeIsWalking() {
-    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+    if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
       this.playAnimation(this.IMAGES_WALKING);
     }
   }

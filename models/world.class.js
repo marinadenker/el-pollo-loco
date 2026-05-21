@@ -45,6 +45,8 @@ class World {
    * @param {Keyboard} keyboard - The keyboard input handler instance.
    */
   constructor(canvas, keyboard) {
+    this.isMuted = localStorage.getItem("isMuted") === "true";
+    this.backgroundMusic.muted = this.isMuted;
     this.backgroundMusic.play();
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -342,6 +344,7 @@ class World {
   toggleSound() {
     this.isMuted = !this.isMuted;
     this.allAudios.forEach((audio) => (audio.muted = this.isMuted));
+    localStorage.setItem("isMuted", this.isMuted);
   }
 
 

@@ -79,11 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     keyboard.LEFT = false;
   });
 
-  document.getElementById("move-left-btn").addEventListener("touchcancel", (e) => {
-    preventDefault(e);
-    keyboard.LEFT = false;
-  });
-
 
   /**
    * On touchstart on the right button, sets the RIGHT keyboard flag to true.
@@ -148,9 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.getElementById("mobile-btns").addEventListener("contextmenu", (e) => {
-  e.preventDefault();
-});
+  document.getElementById("mobile-btns").addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+  });
 });
 
 
@@ -176,10 +171,10 @@ function toggleOverlay(overlayId, getContentFn) {
  */
 function restartGame() {
   gameResult = null;
-  const wasMuted = world?.isMuted || false;
+  const levelToLoad = currentLevel;
   exitGame();
+  currentLevel = levelToLoad;
   init();
-  if (wasMuted) world.toggleSound();
   updateSoundBtn();
 }
 
@@ -190,7 +185,8 @@ function restartGame() {
  */
 function updateSoundBtn() {
   const btn = document.getElementById("sound-btn");
-  btn.innerHTML = world.isMuted
+  const isMuted = world?.isMuted ?? localStorage.getItem("isMuted") === "true";
+  btn.innerHTML = isMuted
     ? '<img src="img/icons/volume_off.svg">'
     : '<img src="img/icons/volume_up.svg">';
 }
