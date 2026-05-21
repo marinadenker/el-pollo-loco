@@ -115,11 +115,13 @@ class WorldActions {
       endboss.speed = 0;
       return;
     }
-
     if (distance <= 350 && !this.world.endbossAttacking) {
       this.letEndbossAttack(endboss);
     } else if (distance <= 500 && !this.world.endbossAlert && !this.world.endbossAttacking) {
       this.letEndbossBeAlert(endboss);
+    } else if (distance > 500 && !this.world.endbossAttacking) {
+      endboss.speed = 1;
+      endboss.changeState("walk");
     }
   }
 

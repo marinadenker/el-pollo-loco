@@ -35,6 +35,8 @@ class World {
   endbossDeadAudio = new Audio("audio/endboss_dead.mp3");
   snoringAudio = new Audio("audio/snoring.mp3");
   backgroundMusic = new Audio("audio/mixkit-summer-fun-13.mp3");
+  lostAudio = new Audio("audio/lost.mp3");
+  wonAudio = new Audio("audio/won.mp3");
 
 
   /**
@@ -317,6 +319,13 @@ class World {
    */  
   showGameOverScreen(result) {
     gameResult = result;
+    this.backgroundMusic.pause();
+    this.backgroundMusic.currentTime = 0;
+    if (result === "lost") {
+      this.playSound(this.lostAudio);
+    } else {
+      this.playSound(this.wonAudio);
+    }
     gameOver(result);
   }
 
@@ -339,6 +348,8 @@ class World {
       this.endbossAttacksAudio,
       this.snoringAudio,
       this.backgroundMusic,
+      this.lostAudio,
+      this.wonAudio,
     ];
   }
 
