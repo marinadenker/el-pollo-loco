@@ -318,7 +318,7 @@ class World {
    * to display the appropriate end screen.
    * @param {"won"|"lost"} result - The outcome to display.
    */  
-  showGameOverScreen(result) {
+showGameOverScreen(result) {
     gameResult = result;
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
