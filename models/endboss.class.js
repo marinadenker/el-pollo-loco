@@ -91,17 +91,18 @@ class Endboss extends MovableObject {
    * - Runs the current state animation immediately.
    * - 60fps interval: moves left normally, or retreats (`moveBack`) when `speed` is negative.
    */  
-  animate() {
-    this.animateCurrentState();
-    setInterval(() => {
-      if (this.speed < 0) {
-        this.moveBack();
-      } else {
-        this.moveLeft();
-        this.otherDirection = false;
-      }
-    }, 1000 / 60);
-  }
+animate() {
+  this.animateCurrentState();
+  setInterval(() => {
+    if (this.speed < 0) {
+      this.moveBack();
+      this.otherDirection = true; 
+    } else if (this.speed > 0) {
+      this.moveLeft();
+      this.otherDirection = false;
+    }
+  }, 1000 / 60);
+}
 
 
   /**

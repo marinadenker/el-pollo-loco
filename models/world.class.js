@@ -37,6 +37,7 @@ class World {
   backgroundMusic = new Audio("audio/mixkit-summer-fun-13.mp3");
   lostAudio = new Audio("audio/lost.mp3");
   wonAudio = new Audio("audio/won.mp3");
+  bossFightAudio = new Audio("audio/bossfight.mp3");
 
 
   /**
@@ -321,6 +322,8 @@ class World {
     gameResult = result;
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
+    this.bossFightAudio.pause();
+    this.bossFightAudio.currentTime = 0;
     if (result === "lost") {
       this.playSound(this.lostAudio);
     } else {
@@ -350,6 +353,7 @@ class World {
       this.backgroundMusic,
       this.lostAudio,
       this.wonAudio,
+      this.bossFightAudio,
     ];
   }
 

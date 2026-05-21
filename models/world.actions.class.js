@@ -121,7 +121,7 @@ class WorldActions {
       this.letEndbossBeAlert(endboss);
     } else if (distance > 500 && !this.world.endbossAttacking) {
       endboss.speed = 1;
-      endboss.changeState("walk");
+      endboss.changeState("walking");
     }
   }
 
@@ -133,6 +133,9 @@ class WorldActions {
    */  
   letEndbossBeAlert(endboss) {
     this.world.endbossAlert = true;
+    this.world.backgroundMusic.pause();
+    this.world.bossFightAudio.loop = true;
+    this.world.playSound(this.world.bossFightAudio);
     endboss.changeState("alert");
     setTimeout(() => {
       this.world.endbossAlert = false;
@@ -164,7 +167,8 @@ class WorldActions {
       this.world.endbossAttacking = false;
       this.world.endbossAlert = false;
       this.world.endbossRetreating = false;
-      endboss.changeState("walk");
+      endboss.currentState = ""; 
+      endboss.changeState("walking");
     }, 1000);
   }
 
