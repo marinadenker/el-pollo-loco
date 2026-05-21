@@ -262,6 +262,8 @@ function exitGame() {
   world.cleanUp();
   world.backgroundMusic.pause();
   world.backgroundMusic.currentTime = 0;
+  world.snoringAudio.pause();
+  world.snoringAudio.currentTime = 0;
   document.getElementById("game-result-overlay").classList.add("d-none");
   document.getElementById("landingscreen").classList.remove("d-none");
   document.getElementById("game-btns").classList.add("d-none");
