@@ -38,6 +38,11 @@ canvas {
     display: block;
     background-color: rgba(53, 37, 34, 0.1);
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.6);
+    aspect-ratio: 720 / 480;
+    max-width: 100%;
+    max-height: 100vh;
+    width: 720px;
+    height: auto;
 }
 
 .game-container {
@@ -347,6 +352,7 @@ table img {
 @media only screen and (max-width: 900px) {
     canvas {
         width: 100%;
+        height: auto;
     }
 
     h1 {
@@ -365,7 +371,7 @@ table img {
     }
 
     canvas {
-        width: 100%;
+        width: auto;
         height: 100vh;
     }
 }
@@ -389,6 +395,7 @@ table img {
 @media only screen and (max-height: 480px) {
     canvas {
         height: 100vh;
+        width: auto;
     }
 
 }
