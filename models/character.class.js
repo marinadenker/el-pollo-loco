@@ -260,6 +260,7 @@ class Character extends MovableObject {
    */
   ifPepeIsInAction() {
     if (this.isSleeping || this.isSnoozing) return;
+    this.world.snoringAudio.pause();
     if (this.isHurt() && !this.isAboveGround()) {
       this.playAnimation(this.IMAGES_HURT);
     } else {

@@ -10,18 +10,22 @@
 
 body {
     font-family: "Sancreek";
-    height: 100dvh;
-    width: 100%;
+    width: 100vw;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    margin: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-image: url('img/epl_background_2.png');
+    background-attachment: fixed; /* for iOS */
     color: #352522;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -230,7 +234,8 @@ table img {
 }
 
 .won-img {
-    height: 300px;
+    min-height: 200px;
+    max-height: 300px;
 }
 
 .gameover-img {
@@ -302,6 +307,16 @@ table img {
         font-size: 24px;
         z-index: 2;
     }
+
+    h1,
+    .game-container,
+    #mobile-btns,
+    #game-btns,
+    .landingscreen,
+    .overlay,
+    .game-result-overlay {
+        display: none !important;
+    }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -322,6 +337,14 @@ table img {
 
     #mobile-btns {
         display: flex;
+    }
+
+    #mobile-btns img,
+    #mobile-btns button,
+    .btn {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
     }
 }
 

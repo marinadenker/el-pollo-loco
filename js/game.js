@@ -65,12 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * On touchstart on the left button, sets the LEFT keyboard flag to true.
    */
-  document
-    .getElementById("move-left-btn")
-    .addEventListener("touchstart", (e) => {
-      preventDefault(e);
-      keyboard.LEFT = true;
-    });
+  document.getElementById("move-left-btn").addEventListener("touchstart", (e) => {
+    preventDefault(e);
+    keyboard.LEFT = true;
+  });
 
 
   /**
@@ -81,27 +79,28 @@ document.addEventListener("DOMContentLoaded", () => {
     keyboard.LEFT = false;
   });
 
+  document.getElementById("move-left-btn").addEventListener("touchcancel", (e) => {
+    preventDefault(e);
+    keyboard.LEFT = false;
+  });
+
 
   /**
    * On touchstart on the right button, sets the RIGHT keyboard flag to true.
    */
-  document
-    .getElementById("move-right-btn")
-    .addEventListener("touchstart", (e) => {
-      preventDefault(e);
-      keyboard.RIGHT = true;
-    });
+  document.getElementById("move-right-btn").addEventListener("touchstart", (e) => {
+    preventDefault(e);
+    keyboard.RIGHT = true;
+  });
 
 
   /**
    * On touchend on the right button, sets the RIGHT keyboard flag to false.
    */
-  document
-    .getElementById("move-right-btn")
-    .addEventListener("touchend", (e) => {
-      preventDefault(e);
-      keyboard.RIGHT = false;
-    });
+  document.getElementById("move-right-btn").addEventListener("touchend", (e) => {
+    preventDefault(e);
+    keyboard.RIGHT = false;
+  });
 
 
   /**
@@ -138,7 +137,22 @@ document.addEventListener("DOMContentLoaded", () => {
     preventDefault(e);
     keyboard.D = false;
   });
+
+  ["move-left-btn", "move-right-btn", "jump-btn", "throw-btn"].forEach((id) => {
+  document.getElementById(id).addEventListener("touchcancel", (e) => {
+    preventDefault(e);
+    keyboard.LEFT = false;
+    keyboard.RIGHT = false;
+    keyboard.UP = false;
+    keyboard.D = false;
+  });
 });
+
+document.getElementById("mobile-btns").addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+});
+});
+
 
 
 /**

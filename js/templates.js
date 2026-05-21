@@ -34,22 +34,23 @@ function getImprintOverlay() {
   return `
       <div class="game-explanation">
         <div class="overlay-header"><h2>Imprint</h2> <button class="close-btn" onclick="toggleOverlay('imprint')">X</button></div>
-        <h3>Diensteanbieter</h3>
-        <p>Marina Denker</p>
-        <p>Am Schmiedekamp 4</p>
-        <p>28816 Stuhr</p>
+          <div class="game-explanation">
+            <p>Information according to § 5 DDG</p>
+            <p>Marina Denker<br>
+            Am Schmiedekamp 4<br>
+            28816 Stuhr<br>
+            </p>
 
-        <h3>Kontaktmöglichkeiten</h3>
-        <p>E-Mail-Adresse: <a href="mailto:marina.ritzau@web.de">marina.ritzau@web.de</a></p>
+            <p><b>Contact:</b><br>
+            E-Mail: <a href="mailto:marina.ritzau@web.de">marina.ritzau@web.de</a></p>
 
-        <h3>Vorbehalt der Nutzung für Text und Data Mining</h3>
-        <p>Vorbehalt der Nutzung für Text und Data Mining: Der Inhaber dieser Website gestattet die Nutzung oder das Herunterladen von Inhalten dieser Website durch Dritte für die Entwicklung, das Training oder den Betrieb von künstlicher Intelligenz oder anderen maschinellen Lernsystemen ("Text und Data Mining") ausschließlich mit ausdrücklicher schriftlicher Zustimmung des Inhabers. Ohne eine solche Zustimmung ist es untersagt, die Inhalte für Text und Data Mining zu verwenden. Dies gilt auch, wenn auf der Website keine Meta-Angaben vorhanden sind, die entsprechende Verfahren aussperren, und selbst dann, wenn Bots, die den Zweck haben, die Website zu Zwecken des Text und Data Mining auszulesen, nicht ausgesperrt werden.</p>
+            <h3>Disclaimer:</h3>
+            <p><b>Liability for Content</b><br>
+            The content of our pages has been created with the utmost care. However, we cannot guarantee the accuracy, completeness, or currency of the content. As a service provider, we are responsible for our own content on these pages in accordance with general laws pursuant to § 7 para. 1 DDG. According to §§ 8 to 10 DDG, however, we as a service provider are not obligated to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity. Obligations to remove or block the use of information under general law remain unaffected. Liability in this regard is only possible from the point in time at which a concrete legal infringement becomes known. Upon becoming aware of any such legal violations, we will remove the relevant content immediately.</p><br><br>
 
-        <h3>Haftungs- und Schutzrechtshinweise</h3>
-        <p>Haftungsausschluss: Die Inhalte dieses Onlineangebotes wurden sorgfältig und nach unserem aktuellen Kenntnisstand erstellt, dienen jedoch nur der Information und entfalten keine rechtlich bindende Wirkung, sofern es sich nicht um gesetzlich verpflichtende Informationen (z. B. das Impressum, die Datenschutzerklärung, AGB oder verpflichtende Belehrungen von Verbrauchern) handelt. Wir behalten uns vor, die Inhalte vollständig oder teilweise zu ändern oder zu löschen, soweit vertragliche Verpflichtungen unberührt bleiben. Alle Angebote sind freibleibend und unverbindlich.</p>
-        <p>Urheberrechte und Markenrechte: Alle auf dieser Website dargestellten Inhalte, wie Texte, Fotografien, Grafiken, Marken und Warenzeichen sind durch die jeweiligen Schutzrechte (Urheberrechte, Markenrechte) geschützt. Die Verwendung, Vervielfältigung usw. unterliegen unseren Rechten oder den Rechten der jeweiligen Urheber bzw. Rechteinhaber.</p>
-
-        <p class="seal"  style="padding-bottom: 24px;"><a href="https://datenschutz-generator.de/" title="Rechtstext von Dr. Schwenke - für weitere Informationen bitte anklicken." target="_blank" rel="noopener noreferrer nofollow">Erstellt mit kostenlosem Datenschutz-Generator.de von Dr. Thomas Schwenke</a></p>
+            <h3>Copyright</h3><br>
+            <p>The content and works created by the site operators on these pages are subject to German copyright law. Reproduction, editing, distribution, and any kind of use beyond the limits of copyright law require the written consent of the respective author or creator. Downloads and copies of this site are only permitted for private, non-commercial use. Where content on this site was not created by the operator, the copyrights of third parties are respected. In particular, third-party content is identified as such. Should you nevertheless become aware of a copyright infringement, please notify us accordingly. Upon becoming aware of any legal violations, we will remove such content immediately.</p>
+            <p>Created with <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>, the tool for imprint and <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">privacy policy</a>. Based on a template by <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.</p>
         </div>
       </div>
     `;
