@@ -50,17 +50,24 @@ class ThrowableObject extends MovableObject {
   throw() {
     this.speedY = 30;
     this.applyGravity();
-    if (!this.otherDirection) {
-      setInterval(() => {
-        this.x += 10;
-      }, 25);
-    } else {
-      setInterval(() => {
-        this.x += -10;
-      }, 25);
-    }
+    const direction = this.otherDirection ? -10 : 10;
+    const moveInterval = setInterval(() => {
+      this.x += direction;
+      if (this.y >= 480) {
+        clearInterval(moveInterval);
+        this.removeFromWorld();
+      }
+    }, 25);
   }
 
+
+  removeFromWorld() {
+  if (!this.world) return;
+  const index = this.world.throwableObjects.indexOf(this);
+  if (index !== -1) {
+    this.world.throwableObjects.splice(index, 1);
+  }
+}
 
 /**
  * Starts a looping animation at 100ms per frame for the given image set.

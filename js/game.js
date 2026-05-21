@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let currentLevel = 1;
 let gameResult = null;
+let reasonsForLoss = "";
 
 /**
  * Initializes the game by hiding the landing screen, showing the UI controls,
@@ -11,7 +12,6 @@ let gameResult = null;
 function init() {
   document.getElementById("landingscreen").classList.add("d-none");
   document.getElementById("game-btns").classList.remove("d-none");
-  document.getElementById("mobile-btns").classList.remove("d-none");
 
   if (currentLevel == 1) {
     initLevel1();
@@ -143,6 +143,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+  const btn = document.getElementById("sound-btn");
+  const isMuted = localStorage.getItem("isMuted") === "true";
+  btn.innerHTML = isMuted
+    ? '<img src="img/icons/volume_off.svg">'
+    : '<img src="img/icons/volume_up.svg">';
+
   document.getElementById("mobile-btns").addEventListener("contextmenu", (e) => {
     e.preventDefault();
   });
@@ -198,6 +204,7 @@ function updateSoundBtn() {
 function toggleSoundBtn() {
   world.toggleSound();
   updateSoundBtn();
+  document.activeElement.blur();
 }
 
 
@@ -258,7 +265,6 @@ function exitGame() {
   document.getElementById("game-result-overlay").classList.add("d-none");
   document.getElementById("landingscreen").classList.remove("d-none");
   document.getElementById("game-btns").classList.add("d-none");
-  document.getElementById("mobile-btns").classList.add("d-none");
 }
 
 

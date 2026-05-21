@@ -76,6 +76,9 @@ function getYouWonScreen() {
 function getYouLostScreen() {
   return `
         <img class="lost-img" src="img/You won, you lost/You lost.png" alt="You Lost">
+        <div class="reason_for_loss">
+          <p class="lossreason">${reasonsForLoss}</p>
+        </div>
         <div class="leave-options">
             <button class="wood-btn" onclick="restartGame()">Try Again</button>
           <button class="wood-btn" onclick="exitGame()">Leave Game</button>

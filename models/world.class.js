@@ -57,6 +57,7 @@ class World {
     this.objectsStartMoving();
     this.run();
     this.draw();
+    this.allAudios.forEach((audio) => (audio.muted = this.isMuted));
   }
 
 
@@ -296,10 +297,15 @@ class World {
     if (gameResult !== null) return;
     if (this.statusBarEnergy.percentage <= 0) {
       gameResult = "lost";
+      reasonsForLoss = "You ran out of health!";
       this.showGameOverScreen("lost");
-    } else if (this.statusBarEndboss.percentage <= 0) {
-      gameResult = "won";
-      this.showGameOverScreen("won");
+      } else if ( this.statusBarBottles.percentage <= 0 && this.level.bottles.length === 0 && this.throwableObjects.length === 0 && this.statusBarEndboss.percentage > 0) {
+        gameResult = "lost";
+        reasonsForLoss = "You ran out of bottles!";
+        this.showGameOverScreen("lost");
+      } else if (this.statusBarEndboss.percentage <= 0) {
+        gameResult = "won";
+        this.showGameOverScreen("won");
     }
   }
 

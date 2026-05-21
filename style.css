@@ -244,7 +244,12 @@ table img {
 }
 
 .lost-img {
-    height: 260px;
+    height: 230px;
+}
+
+.lossreason {
+    color: #ffc71e;
+    font-size: 26px;
 }
 
 .leave-options {
@@ -310,7 +315,6 @@ table img {
 
     h1,
     .game-container,
-    #mobile-btns,
     #game-btns,
     .landingscreen,
     .overlay,
@@ -326,6 +330,20 @@ table img {
     }
 }
 
+@media (pointer: coarse) and (hover: none){
+    #mobile-btns {
+        display: flex;
+    }
+
+    #mobile-btns img,
+        #mobile-btns button,
+        .btn {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}
+
 @media only screen and (max-width: 900px) {
     canvas {
         width: 100%;
@@ -333,18 +351,6 @@ table img {
 
     h1 {
         display: none;
-    }
-
-    #mobile-btns {
-        display: flex;
-    }
-
-    #mobile-btns img,
-    #mobile-btns button,
-    .btn {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
     }
 }
 

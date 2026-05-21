@@ -299,7 +299,7 @@ class WorldActions {
    */  
   throwBottle() {
     let bottle = new ThrowableObject(this.world.character.x + 100, this.world.character.y + 100, this.world.character.otherDirection, this.world.bottleNumber,);
-
+    bottle.world = this.world;
     this.world.throwableObjects.push(bottle);
     this.world.bottleNumber++;
     this.world.bottlesLeft--;
