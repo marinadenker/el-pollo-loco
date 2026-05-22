@@ -70,7 +70,7 @@ class Endboss extends MovableObject {
    * Creates the endboss at x=2450, loads all animation image sets,
    * and starts the animation loop if alive.
    */
-  constructor() {
+  constructor(difficulty = "normal") {
     super();
     this.loadImage(this.IMAGES_WALKING[0]);
     this.x = 2450;
@@ -80,6 +80,10 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DYING);
     this.loadImages(this.IMAGES_DEAD);
+    if (difficulty === "easy") {
+      this.energy = 60;
+      this.walkingSpeed = 0.1;
+    }
     if (this.isAlive) {
       this.animate();
     }

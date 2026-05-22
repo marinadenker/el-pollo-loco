@@ -120,8 +120,11 @@ class WorldActions {
     } else if (distance <= 500 && !this.world.endbossAlert && !this.world.endbossAttacking) {
       this.letEndbossBeAlert(endboss);
     } else if (distance > 500 && !this.world.endbossAttacking) {
-      endboss.speed = 1;
-      endboss.changeState("walking");
+      const bottlesLeft = this.world.level.bottles.length > 0;
+      if (!bottlesLeft) { 
+        endboss.speed = 1;
+        endboss.changeState("walking");
+      }
     }
   }
 
@@ -368,35 +371,46 @@ class WorldActions {
   }
 
 
-  /**
-   * Handles the endboss death sequence:
-   * plays the death sound, stops movement, runs the dying animation frame by frame,
-   * shows the win screen after the animation completes.
-   * @param {MovableObject} enemy - The endboss to kill.
-   * @param {ThrowableObject} bottle - The bottle that delivered the killing blow.
-   */
-  killEndboss(enemy, bottle) {
-    this.world.playSound(this.world.endbossDeadAudio);
-    enemy.isAlive = false;
-    enemy.speed = 0;
-    enemy.currentState = "dead";
-    this.playSplashAnimation(bottle);
+/**
+ * Sets the endboss state to dead and plays the death sound and splash animation.
+ * @param {MovableObject} enemy - The endboss to kill.
+ * @param {ThrowableObject} bottle - The bottle that delivered the killing blow.
+ */
+setEndbossDead(enemy, bottle) {
+  this.world.playSound(this.world.endbossDeadAudio);
+  enemy.isAlive = false;
+  enemy.speed = 0;
+  enemy.currentState = "dead";
+  this.playSplashAnimation(bottle);
+}
 
-    clearInterval(enemy.animation);
-    enemy.currentImage = 0;
-    enemy.animation = setInterval(() => {
-      enemy.playAnimation(enemy.IMAGES_DYING);
-      if (enemy.currentImage >= enemy.IMAGES_DYING.length - 1) {
-        clearInterval(enemy.animation);
-        enemy.img = enemy.imageCache[enemy.IMAGES_DEAD[0]];
-      }
-    }, 300);
+/**
+ * Plays the dying animation frame by frame and shows the final dead image when done.
+ * @param {MovableObject} enemy - The endboss to animate.
+ */
+playEndbossDeathAnimation(enemy) {
+  clearInterval(enemy.animation);
+  enemy.currentImage = 0;
+  enemy.animation = setInterval(() => {
+    enemy.playAnimation(enemy.IMAGES_DYING);
+    if (enemy.currentImage >= enemy.IMAGES_DYING.length - 1) {
+      clearInterval(enemy.animation);
+      enemy.img = enemy.imageCache[enemy.IMAGES_DEAD[0]];
+    }
+  }, 300);
+}
 
-    setTimeout(
-      () => {
-        this.world.showGameOverScreen("won");
-      },
-      enemy.IMAGES_DYING.length * 300 + 500,
-    );
-  }
+/**
+ * Handles the endboss death sequence: sets state, plays animation,
+ * and shows the win screen after the animation completes.
+ * @param {MovableObject} enemy - The endboss to kill.
+ * @param {ThrowableObject} bottle - The bottle that delivered the killing blow.
+ */
+killEndboss(enemy, bottle) {
+  this.setEndbossDead(enemy, bottle);
+  this.playEndbossDeathAnimation(enemy);
+  setTimeout(() => {
+    this.world.showGameOverScreen("won");
+  }, enemy.IMAGES_DYING.length * 300 + 500);
+}
 }

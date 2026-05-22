@@ -148,33 +148,32 @@ run() {
 
 
   /**
-   * The main render loop. Clears the canvas each frame, applies camera translation,
-   * draws all game objects in layer order, and schedules the next frame via
-   * `requestAnimationFrame`. Status bars are drawn in fixed screen space between translations.
-   */  
-  draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.backgroundObjects, 0);
-
-    this.ctx.translate(-this.camera_x, 0);
-    // ---- Space for fixed objects ----
-    this.addStatusbarsToCanvas();
-    this.ctx.translate(this.camera_x, 0);
-
+   * Draws all game objects onto the canvas in the correct layer order.
+   */
+  drawGameObjects() {
     this.addToMap(this.character);
     this.addObjectsToMap(this.clouds);
     this.addObjectsToMap(this.enemies);
     this.addObjectsToMap(this.bottles);
     this.addObjectsToMap(this.coins);
     this.addObjectsToMap(this.throwableObjects);
+  }
 
+  /**
+   * The main render loop. Clears the canvas each frame, applies camera translation,
+   * draws all game objects in layer order, and schedules the next frame via
+   * `requestAnimationFrame`. Status bars are drawn in fixed screen space between translations.
+   */
+  draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.translate(this.camera_x, 0);
+    this.addObjectsToMap(this.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
-
-    let self = this;
-    this.gameLoopId = requestAnimationFrame(function () {
-      self.draw();
-    });
+    this.addStatusbarsToCanvas();
+    this.ctx.translate(this.camera_x, 0);
+    this.drawGameObjects();
+    this.ctx.translate(-this.camera_x, 0);
+    this.gameLoopId = requestAnimationFrame(() => this.draw());
   }
 
 
