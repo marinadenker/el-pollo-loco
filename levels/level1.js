@@ -7,6 +7,8 @@ function initLevel1(){
         new Chicken(0),
         new Chicken(1),
         new Chicken(2),
+        new BabyChicken(3),
+        new BabyChicken(4),
         new Endboss("easy")
     ], [
         new Cloud(0),
