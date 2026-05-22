@@ -9,7 +9,6 @@ class DrawableObject {
     bottom: 0,
   };
 
-
   /**
    * Loads a single image and assigns it to the current object.
    * @param {string} path - The file path of the image to load.
@@ -18,7 +17,6 @@ class DrawableObject {
     this.img = new Image();
     this.img.src = path;
   }
-
 
   /**
    * Loads multiple images and stores them in the image cache for quick access.
@@ -32,7 +30,6 @@ class DrawableObject {
     });
   }
 
-
   /**
    * Draws the current image of the object on the canvas.
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
@@ -42,7 +39,6 @@ class DrawableObject {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
   }
-
 
   /**
    * Draws a blue outline around the object’s bounding box for debugging purposes.
@@ -57,7 +53,6 @@ class DrawableObject {
       ctx.stroke();
     }
   }
-
 
   /**
    * Draws a red outline around the object’s offset area for collision debugging.
@@ -77,7 +72,6 @@ class DrawableObject {
       ctx.stroke();
     }
   }
-
 
   /**
    * Checks whether this object is a known debuggable game entity.

@@ -133,6 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
     keyboard.D = false;
   });
 
+
+  /**
+   * On touchcancel on any mobile button, resets all keyboard flags to false.
+   * Prevents stuck inputs when a touch is interrupted (e.g. by a notification).
+   */
   ["move-left-btn", "move-right-btn", "jump-btn", "throw-btn"].forEach((id) => {
   document.getElementById(id).addEventListener("touchcancel", (e) => {
     preventDefault(e);
@@ -143,6 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+  /**
+   * Sets the sound button icon on page load based on the mute state stored in localStorage.
+   */
   const btn = document.getElementById("sound-btn");
   const isMuted = localStorage.getItem("isMuted") === "true";
   btn.innerHTML = isMuted

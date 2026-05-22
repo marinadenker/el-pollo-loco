@@ -40,7 +40,6 @@ class World {
   wonAudio = new Audio("audio/won.mp3");
   bossFightAudio = new Audio("audio/bossfight.mp3");
 
-
   /**
    * Initialises the game world: starts background music, sets up the canvas context,
    * loads the current level, creates the character, wires up world references,
@@ -64,7 +63,6 @@ class World {
     this.allAudios.forEach((audio) => (audio.muted = this.isMuted));
   }
 
-
   /**
    * Determines which level to load based on the global `currentLevel` variable
    * and delegates to {@link loadLevel}.
@@ -72,7 +70,6 @@ class World {
   checkLevel() {
     this.loadLevel(currentLevel == 1 ? level1 : level2);
   }
-
 
   /**
    * Loads a level into the world, populating enemies, clouds,
@@ -88,7 +85,6 @@ class World {
     this.bottles = level.bottles;
   }
 
-
   /**
    * Sets initial movement speeds for all enemies and clouds in the level.
    * Each enemy uses its own `walkingSpeed`; clouds move at a fixed speed of 0.02.
@@ -102,7 +98,6 @@ class World {
     });
   }
 
-
   /**
    * Draws all four status bars (energy, coins, bottles, endboss) onto the canvas
    * in screen space (unaffected by camera translation).
@@ -114,7 +109,6 @@ class World {
     this.addToMap(this.statusBarEndboss);
   }
 
-
   /**
    * Injects the world reference into the character, `worldActions`,
    * and every enemy, enabling them to access shared game state.
@@ -124,7 +118,6 @@ class World {
     this.worldActions.world = this;
     this.enemies.forEach((enemy) => (enemy.world = this));
   }
-
 
   /**
    * Starts the two main game logic intervals:
@@ -145,7 +138,6 @@ run() {
     this.PepeIsSleeping();
   }, 1000);
 }
-
 
   /**
    * Draws all game objects onto the canvas in the correct layer order.
@@ -176,7 +168,6 @@ run() {
     this.gameLoopId = requestAnimationFrame(() => this.draw());
   }
 
-
   /**
    * Iterates over an array of game objects and draws each one onto the canvas.
    * @param {MovableObject[]} objects - The objects to render.
@@ -186,7 +177,6 @@ run() {
       this.addToMap(object);
     });
   }
-
 
   /**
    * Draws a single game object onto the canvas.
@@ -204,7 +194,6 @@ run() {
     }
   }
 
-
   /**
    * Flips the canvas context horizontally for left-facing sprites
    * by translating and scaling, and negates the object's x position
@@ -218,7 +207,6 @@ run() {
     mo.x = mo.x * -1;
   }
 
-
   /**
    * Restores the canvas context after a horizontal flip
    * by negating the object's x position back and calling `ctx.restore()`.
@@ -228,7 +216,6 @@ run() {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
-
 
   /**
    * Updates a status bar to reflect a new value.
@@ -240,7 +227,6 @@ run() {
     bar.setPercentage(assets, images);
   }
 
-
   /**
    * Records the current timestamp as the last player action,
    * resetting the inactivity timer.
@@ -248,7 +234,6 @@ run() {
   trackInactivity() {
     this.lastAction = Date.now();
   }
-
 
   /**
    * Checks how long the player has been inactive and updates the character's
@@ -271,7 +256,6 @@ run() {
     }
   }
 
-
   /**
    * Clears all active `setInterval` timers by brute-forcing IDs 1–9998.
    * Used during cleanup to stop all game loops regardless of their references.
@@ -279,7 +263,6 @@ run() {
   clearIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
   }
-
 
   /**
    * Fully stops the game: clears all intervals, cancels the animation frame loop,
@@ -290,7 +273,6 @@ run() {
     cancelAnimationFrame(this.gameLoopId);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
-
 
   /**
    * Checks win/loss conditions once per frame.
@@ -315,7 +297,6 @@ run() {
     }
   }
 
-
   /**
    * Sets the global `gameResult` and calls the external `gameOver()` function
    * to display the appropriate end screen.
@@ -334,7 +315,6 @@ run() {
     }
     gameOver(result);
   }
-
 
   /**
    * Getter that returns all audio instances in the world as a flat array,
@@ -359,7 +339,6 @@ run() {
     ];
   }
 
-
   /**
    * Toggles the mute state for all audio in the world.
    * Flips `this.isMuted` and applies it to every Audio instance via {@link allAudios}.
@@ -369,7 +348,6 @@ run() {
     this.allAudios.forEach((audio) => (audio.muted = this.isMuted));
     localStorage.setItem("isMuted", this.isMuted);
   }
-
 
   /**
    * Plays an audio clip, applying the current mute state before playing.

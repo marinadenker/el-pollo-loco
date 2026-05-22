@@ -41,7 +41,6 @@ class ThrowableObject extends MovableObject {
     this.throw();
   }
 
-
 /**
  * Launches the bottle by applying an upward impulse and gravity,
  * then moves it horizontally at 10px per 25ms in the character's
@@ -59,7 +58,6 @@ class ThrowableObject extends MovableObject {
       }
     }, 25);
   }
-
 
   removeFromWorld() {
   if (!this.world) return;

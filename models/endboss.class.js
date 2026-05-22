@@ -89,7 +89,6 @@ class Endboss extends MovableObject {
     }
   }
 
-
   /**
    * Starts the endboss movement and animation loops.
    * - Runs the current state animation immediately.
@@ -108,7 +107,6 @@ animate() {
   }, 1000 / 60);
 }
 
-
   /**
    * Transitions the endboss to a new state and restarts the animation.
    * Does nothing if the endboss is already in the requested state.
@@ -119,7 +117,6 @@ animate() {
     this.currentState = newState;
     this.animateCurrentState();
   }
-
 
   /**
    * Clears the current animation interval and starts the correct one
@@ -142,7 +139,6 @@ animate() {
     }
   }
 
-
   /**
    * Starts the walking animation loop at 300ms per frame.
    */  
@@ -152,7 +148,6 @@ animate() {
     }, 300);
   }
 
-
   /**
    * Starts the alert animation loop at 300ms per frame.
    */  
@@ -161,7 +156,6 @@ animate() {
       this.playAnimation(this.IMAGES_ALERT);
     }, 300);
   }
-
 
   /**
    * Starts the attack animation loop at 250ms per frame with a `frameSpeed` of 5
@@ -173,7 +167,6 @@ animate() {
     }, 250);
   }
 
-
   /**
    * Immediately stops the current animation and starts the hurt animation loop.
    * Called directly (bypassing `changeState`) so it interrupts any ongoing state.
@@ -184,7 +177,6 @@ animate() {
       this.playAnimation(this.IMAGES_HURT);
     }, 300);
   }
-
 
   /**
    * Reduces energy by 20, clamps to 0, records the hit timestamp,

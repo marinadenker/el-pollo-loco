@@ -41,7 +41,6 @@ class Chicken extends MovableObject {
     }
   }
 
-  
   /**
    * Animates the chicken, so that it walks towards the game character.
    */

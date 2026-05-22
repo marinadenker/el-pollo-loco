@@ -1,7 +1,6 @@
 class WorldActions {
   world;
 
-
   /**
    * Runs all collision checks for the current frame:
    * enemies, coins, bottles, and throwable bottles.
@@ -12,7 +11,6 @@ class WorldActions {
     this.checkCollisionWithBottle();
     this.checkCollisionWithThrowableBottles();
   }
-
 
   /**
    * Iterates over all enemies and triggers collision handling
@@ -25,7 +23,6 @@ class WorldActions {
       }
     });
   }
-
 
   /**
    * Routes an enemy collision to the correct handler based on enemy type and character state.
@@ -47,7 +44,6 @@ class WorldActions {
     }
   }
 
-
   /**
    * Handles a collision between the character and the endboss.
    * Triggers the endboss attack state and sound if not already hurt or dead,
@@ -62,7 +58,6 @@ class WorldActions {
     this.hurtCharacterByEnemy(enemy);
   }
 
-
   /**
    * Handles a collision between the character and a normal chicken enemy.
    * Damages the character.
@@ -71,7 +66,6 @@ class WorldActions {
   handleChickenCollision(enemy) {
     this.hurtCharacterByEnemy(enemy);
   }
-
 
   /**
    * Hurts the character due to an enemy collision and refreshes the energy status bar.
@@ -86,7 +80,6 @@ class WorldActions {
     );
   }
 
-
   /**
    * Retrieves the endboss (last enemy in the level) and evaluates its
    * state based on distance to the character.
@@ -99,7 +92,6 @@ class WorldActions {
     const distance = endboss.x - this.world.character.x;
     this.updateEndbossState(endboss, distance);
   }
-
 
   /**
    * Updates the endboss behaviour based on its distance to the character.
@@ -128,7 +120,6 @@ class WorldActions {
     }
   }
 
-
   /**
    * Puts the endboss into the alert state for 1 second,
    * then resets the alert flag.
@@ -145,36 +136,39 @@ class WorldActions {
     }, 1000);
   }
 
+/**
+ * Triggers the endboss attack sequence:
+ * charges toward the character at high speed, then initiates the retreat.
+ * @param {MovableObject} endboss - The endboss enemy instance.
+ */
+letEndbossAttack(endboss) {
+  this.world.endbossAttacking = true;
+  endboss.speed = 8;
+  endboss.changeState("attack");
+  setTimeout(async () => {
+    await this.letEndbossRetreat(endboss);
+  }, 1000);
+}
 
-  /**
-   * Triggers the endboss attack sequence:
-   * charges toward the character at high speed, then retreats
-   * and resets to the walk state after ~1.8 seconds.
-   * @param {MovableObject} endboss - The endboss enemy instance.
-   */  
-  letEndbossAttack(endboss) {
-    this.world.endbossAttacking = true;
-    endboss.speed = 8;
-    endboss.changeState("attack");
-
-    setTimeout(async () => {
-      if (!endboss.isAlive) return;
-      endboss.speed = -10;
-      this.world.endbossRetreating = true;
-      endboss.changeState("alert");
-
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      if (!endboss.isAlive) return;
-      endboss.speed = 0;
-      this.world.endbossAttacking = false;
-      this.world.endbossAlert = false;
-      this.world.endbossRetreating = false;
-      endboss.currentState = ""; 
-      endboss.changeState("walking");
-    }, 1000);
-  }
-
+/**
+ * Retreats the endboss after an attack: moves it back, waits 800ms,
+ * then resets all attack flags and returns it to the walking state.
+ * @param {MovableObject} endboss - The endboss enemy instance.
+ */
+async letEndbossRetreat(endboss) {
+  if (!endboss.isAlive) return;
+  endboss.speed = -10;
+  this.world.endbossRetreating = true;
+  endboss.changeState("alert");
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  if (!endboss.isAlive) return;
+  endboss.speed = 0;
+  this.world.endbossAttacking = false;
+  this.world.endbossAlert = false;
+  this.world.endbossRetreating = false;
+  endboss.currentState = "";
+  endboss.changeState("walking");
+}
 
   /**
    * Plays the splash animation on a throwable object over 10 frames at 100ms intervals.
@@ -189,7 +183,6 @@ class WorldActions {
       if (++counter >= 10) clearInterval(interval);
     }, 100);
   }
-
 
   /**
    * Kills an enemy: stops movement, snaps it to the ground, plays the death animation
@@ -208,7 +201,6 @@ class WorldActions {
     this.playSplashAnimation(ThrowableObject);
   }
 
-
   /**
    * Determines whether an enemy is a normal chicken (as opposed to the endboss).
    * Uses the `number` property: normal chickens have a non-negative number.
@@ -218,7 +210,6 @@ class WorldActions {
   enemyIsNormalChicken(enemy) {
     return enemy.number >= 0;
   }
-
 
   /**
    * Checks whether the character is colliding with any coin in the level.
@@ -237,7 +228,6 @@ class WorldActions {
       if (index !== -1) this.world.level.coins.splice(index, 1);
     });
   }
-
 
   /**
    * Checks whether the character is colliding with any ground bottle in the level.
@@ -258,7 +248,6 @@ class WorldActions {
     });
   }
 
-
   /**
    * Damages the character if at least 1 second has passed since the last hit.
    * Plays the hurt sound and records the attacking enemy number.
@@ -273,7 +262,6 @@ class WorldActions {
     this.currentEnemy = enemy.number;
   }
 
-
   /**
    * Checks whether the D key is pressed and a bottle can be thrown,
    * then throws one and suppresses further input until the key is released.
@@ -284,7 +272,6 @@ class WorldActions {
       this.world.keyboard.D = false;
     }
   }
-
 
   /**
    * Determines whether the character is allowed to throw a bottle.
@@ -299,7 +286,6 @@ class WorldActions {
     if (lastBottle && lastBottle.y <= 240) return false;
     return true;
   }
-
 
   /**
    * Creates and launches a new {@link ThrowableObject} from the character's position,
@@ -318,7 +304,6 @@ class WorldActions {
     this.world.playSound(this.world.throwBottleAudio);
   }
 
-
   /**
    * Checks each throwable bottle for a collision with the endboss.
    */
@@ -327,7 +312,6 @@ class WorldActions {
       this.checkCollisionWithEndboss(bottle);
     });
   }
-
 
   /**
    * Checks whether a specific thrown bottle has collided with the endboss.
@@ -343,7 +327,6 @@ class WorldActions {
       }
     });
   }
-
 
   /**
    * Applies damage to the endboss from a bottle hit:
@@ -369,7 +352,6 @@ class WorldActions {
       this.killEndboss(enemy, bottle);
     }
   }
-
 
 /**
  * Sets the endboss state to dead and plays the death sound and splash animation.
