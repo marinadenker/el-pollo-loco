@@ -12,6 +12,7 @@ let reasonsForLoss = "";
 function init() {
   document.getElementById("landingscreen").classList.add("d-none");
   document.getElementById("game-btns").classList.remove("d-none");
+  document.getElementById("mobile-btns").classList.add("active");
 
   if (currentLevel == 1) {
     initLevel1();
@@ -21,7 +22,6 @@ function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
 }
-
 
 /**
  * On keydown, the corresponding keyboard flag is set to true.
@@ -35,7 +35,6 @@ window.addEventListener("keydown", (event) => {
   if (event.code === "KeyD" && !event.repeat) keyboard.D = true;
 });
 
-
 /**
  * On keyup, the corresponding keyboard flag is set to false.
  */
@@ -48,7 +47,6 @@ window.addEventListener("keyup", (event) => {
   if (event.code === "KeyD") keyboard.D = false;
 });
 
-
 /**
  * Prevents the default browser behavior for an event, but only if the event
  * is cancelable. Used to suppress scrolling during touch interactions.
@@ -60,94 +58,29 @@ function preventDefault(e) {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
   /**
-   * On touchstart on the left button, sets the LEFT keyboard flag to true.
+   * Maps each mobile button ID to its corresponding keyboard flag.
+   * Used to register touchstart, touchend, and touchcancel listeners in one loop.
+   * @type {{ id: string, key: string }[]}
    */
-  document.getElementById("move-left-btn").addEventListener("touchstart", (e) => {
-    preventDefault(e);
-    keyboard.LEFT = true;
+  const buttonMappings = [
+    { id: "move-left-btn",  key: "LEFT"  },
+    { id: "move-right-btn", key: "RIGHT" },
+    { id: "jump-btn",       key: "UP"    },
+    { id: "throw-btn",      key: "D"     },
+  ];
+
+  buttonMappings.forEach(({ id, key }) => {
+    const btn = document.getElementById(id);
+    btn.addEventListener("touchstart",  (e) => { preventDefault(e); keyboard[key] = true;  });
+    btn.addEventListener("touchend",    (e) => { preventDefault(e); keyboard[key] = false; });
+    btn.addEventListener("touchcancel", (e) => { preventDefault(e); keyboard[key] = false; });
   });
 
-
-  /**
-   * On touchend on the left button, sets the LEFT keyboard flag to false.
-   */
-  document.getElementById("move-left-btn").addEventListener("touchend", (e) => {
-    preventDefault(e);
-    keyboard.LEFT = false;
+  document.getElementById("mobile-btns").addEventListener("contextmenu", (e) => {
+    e.preventDefault();
   });
-
-
-  /**
-   * On touchstart on the right button, sets the RIGHT keyboard flag to true.
-   */
-  document.getElementById("move-right-btn").addEventListener("touchstart", (e) => {
-    preventDefault(e);
-    keyboard.RIGHT = true;
-  });
-
-
-  /**
-   * On touchend on the right button, sets the RIGHT keyboard flag to false.
-   */
-  document.getElementById("move-right-btn").addEventListener("touchend", (e) => {
-    preventDefault(e);
-    keyboard.RIGHT = false;
-  });
-
-
-  /**
-   * On touchstart on the jump button, sets the UP keyboard flag to true.
-   */
-  document.getElementById("jump-btn").addEventListener("touchstart", (e) => {
-    preventDefault(e);
-    keyboard.UP = true;
-  });
-
-
-  /**
-   * On touchend on the jump button, sets the UP keyboard flag to false.
-   */
-  document.getElementById("jump-btn").addEventListener("touchend", (e) => {
-    preventDefault(e);
-    keyboard.UP = false;
-  });
-
-
-  /**
-   * On touchstart on the throw button, sets the D keyboard flag to true.
-   */
-  document.getElementById("throw-btn").addEventListener("touchstart", (e) => {
-    preventDefault(e);
-    keyboard.D = true;
-  });
-
-
-  /**
-   * On touchend on the throw button, sets the D keyboard flag to false.
-   */
-  document.getElementById("throw-btn").addEventListener("touchend", (e) => {
-    preventDefault(e);
-    keyboard.D = false;
-  });
-
-
-  /**
-   * On touchcancel on any mobile button, resets all keyboard flags to false.
-   * Prevents stuck inputs when a touch is interrupted (e.g. by a notification).
-   */
-  ["move-left-btn", "move-right-btn", "jump-btn", "throw-btn"].forEach((id) => {
-  document.getElementById(id).addEventListener("touchcancel", (e) => {
-    preventDefault(e);
-    keyboard.LEFT = false;
-    keyboard.RIGHT = false;
-    keyboard.UP = false;
-    keyboard.D = false;
-  });
-});
-
 
   /**
    * Sets the sound button icon on page load based on the mute state stored in localStorage.
@@ -157,13 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.innerHTML = isMuted
     ? '<img src="img/icons/volume_off.svg">'
     : '<img src="img/icons/volume_up.svg">';
-
-  document.getElementById("mobile-btns").addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-  });
 });
-
-
 
 /**
  * Toggles the visibility of an overlay element. Optionally sets its inner HTML
@@ -177,7 +104,6 @@ function toggleOverlay(overlayId, getContentFn) {
   if (getContentFn) overlay.innerHTML = getContentFn();
   overlay.classList.toggle("d-none");
 }
-
 
 /**
  * Restarts the game from scratch. Preserves the current mute state,
@@ -193,7 +119,6 @@ function restartGame() {
   updateSoundBtn();
 }
 
-
 /**
  * Updates the sound toggle button icon to reflect the current mute state.
  * Shows a volume_off icon when muted, and volume_up when unmuted.
@@ -206,7 +131,6 @@ function updateSoundBtn() {
     : '<img src="img/icons/volume_up.svg">';
 }
 
-
 /**
  * Toggles the game sound on or off and updates the sound button icon accordingly.
  */
@@ -215,7 +139,6 @@ function toggleSoundBtn() {
   updateSoundBtn();
   document.activeElement.blur();
 }
-
 
 /**
  * Handles the end of the game by triggering either the loss or win sequence
@@ -229,7 +152,6 @@ function gameOver(result) {
     showWonScreen();
   }
 }
-
 
 /**
  * Shows the game-over screen immediately, then after a 3-second delay
@@ -249,7 +171,6 @@ function showLostSequence() {
   }, 3000);
 }
 
-
 /**
  * After a 3-second delay, exits the game and displays the "You Won" screen.
  */
@@ -263,7 +184,6 @@ function showWonScreen() {
     overlay.classList.remove("d-none");
   }, 3000);
 }
-
 
 /**
  * Cleans up the current game session: resets the game result, stops and resets
@@ -282,8 +202,8 @@ function exitGame() {
   document.getElementById("game-result-overlay").classList.add("d-none");
   document.getElementById("landingscreen").classList.remove("d-none");
   document.getElementById("game-btns").classList.add("d-none");
+  document.getElementById("mobile-btns").classList.remove("active");
 }
-
 
 /**
  * Sets the current level and restarts the game to load that level.
@@ -293,7 +213,6 @@ function startLevel(level) {
   currentLevel = level;
   restartGame();
 }
-
 
 /**
  * Pauses the game and displays the exit confirmation screen.

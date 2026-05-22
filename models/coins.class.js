@@ -12,7 +12,6 @@ class Coin extends MovableObject {
 
   currentImage = 0;
 
-
   /**
    * Creates a coin at a random position and starts its animation.
    * - x: random between 200 and 2200.
@@ -31,7 +30,6 @@ class Coin extends MovableObject {
     this.animate();
   }
 
-  
   /**
    * Alternates between the two turning frames every 400ms.
    */

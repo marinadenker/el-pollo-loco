@@ -25,7 +25,13 @@ class ThrowableObject extends MovableObject {
 
   bottleNumber;
 
-
+  /**
+   * Creates a new throwable bottle object and immediately throws it.
+   * @param {number} x - The initial horizontal position in pixels.
+   * @param {number} y - The initial vertical position in pixels.
+   * @param {boolean} direction - Throw direction; true = left, false = right.
+   * @param {number} bottleNumber - Index of the bottle in the inventory.
+   */
   constructor(x, y, direction, bottleNumber) {
     super();
     this.loadImage("img/6_salsa_bottle/salsa_bottle.png"); 
@@ -41,11 +47,11 @@ class ThrowableObject extends MovableObject {
     this.throw();
   }
 
-/**
- * Launches the bottle by applying an upward impulse and gravity,
- * then moves it horizontally at 10px per 25ms in the character's
- * current facing direction (right if `otherDirection` is false, left otherwise).
- */
+  /**
+   * Launches the bottle by applying an upward impulse and gravity,
+   * then moves it horizontally at 10px per 25ms in the character's
+   * current facing direction (right if `otherDirection` is false, left otherwise).
+   */
   throw() {
     this.speedY = 30;
     this.applyGravity();
@@ -59,6 +65,10 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
+  /**
+   * Removes this bottle from the world's throwable objects array.
+   * Does nothing if the bottle is not currently associated with a world.
+   */
   removeFromWorld() {
   if (!this.world) return;
   const index = this.world.throwableObjects.indexOf(this);
