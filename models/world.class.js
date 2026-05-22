@@ -25,6 +25,7 @@ class World {
   endbossRetreating = false;
   collectedCoins = 0;
   isPaused = false;
+  endbossTriggered = false;
 
   earnedCoinAudio = new Audio("audio/coin.mp3");
   earnedBottleAudio = new Audio("audio/collect.mp3");
@@ -106,7 +107,9 @@ class World {
     this.addToMap(this.statusBarEnergy);
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarBottles);
-    this.addToMap(this.statusBarEndboss);
+      if (this.endbossTriggered) {
+      this.addToMap(this.statusBarEndboss);
+    }
   }
 
   /**

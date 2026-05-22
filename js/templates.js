@@ -34,7 +34,6 @@ function getImprintOverlay() {
   return `
       <div class="game-explanation">
         <div class="overlay-header"><h2>Imprint</h2> <button class="close-btn" onclick="toggleOverlay('imprint')">X</button></div>
-          <div class="game-explanation">
             <p>Information according to § 5 DDG</p>
             <p>Marina Denker<br>
             Am Schmiedekamp 4<br>
@@ -50,8 +49,7 @@ function getImprintOverlay() {
 
             <h3>Copyright</h3><br>
             <p>The content and works created by the site operators on these pages are subject to German copyright law. Reproduction, editing, distribution, and any kind of use beyond the limits of copyright law require the written consent of the respective author or creator. Downloads and copies of this site are only permitted for private, non-commercial use. Where content on this site was not created by the operator, the copyrights of third parties are respected. In particular, third-party content is identified as such. Should you nevertheless become aware of a copyright infringement, please notify us accordingly. Upon becoming aware of any legal violations, we will remove such content immediately.</p>
-            <p>Created with <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>, the tool for imprint and <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">privacy policy</a>. Based on a template by <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.</p>
-        </div>
+            <p>Created with <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>, the tool for imprint and <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">privacy policy</a>. Based on a template by <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.</p>   
       </div>
     `;
 }

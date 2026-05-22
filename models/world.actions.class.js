@@ -121,14 +121,15 @@ class WorldActions {
    * @param {MovableObject} endboss - The endboss enemy instance.
    */  
   letEndbossBeAlert(endboss) {
-    this.world.endbossAlert = true;
-    this.world.backgroundMusic.pause();
-    this.world.bossFightAudio.loop = true;
-    this.world.playSound(this.world.bossFightAudio);
-    endboss.changeState("alert");
-    setTimeout(() => {
-      this.world.endbossAlert = false;
-    }, 1000);
+      this.world.endbossAlert = true;
+      this.world.endbossTriggered = true;
+      this.world.backgroundMusic.pause();
+      this.world.bossFightAudio.loop = true;
+      this.world.playSound(this.world.bossFightAudio);
+      endboss.changeState("alert");
+      setTimeout(() => {
+          this.world.endbossAlert = false;
+      }, 1000);
   }
 
   /**

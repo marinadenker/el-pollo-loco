@@ -81,6 +81,7 @@ button {
 p {
     font-family: "Boogaloo";
     margin: 4px;
+    font-size: 18px;
 }
 
 h2 {
@@ -118,7 +119,7 @@ h3 {
     filter: brightness(0.9);
 }
 
-.wood-btn:hover {
+.wood-btn:hover, .wood-btn-secondary:hover  {
     transform: scale(1.05);
 }
 
@@ -200,7 +201,7 @@ h3 {
     background-repeat: no-repeat;
     background-color: #352522;
     color: #fff;
-    padding: 16px 40px;
+    padding: 0 40px 16px 40px;
     overflow-y: auto;
 }
 
@@ -208,6 +209,9 @@ h3 {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    position: sticky;
+    background-color: #51372c;
+    top: 0;
 }
 
 .close-btn {
@@ -364,6 +368,35 @@ table img {
     text-transform: uppercase;
     font-size: 30px;
     padding: 0 16px;
+}
+
+.scroll-top-btn {
+    position: sticky;
+    bottom: 16px;
+    align-self: center;
+    background: #352522;
+    color: #fff;
+    border: 1px solid #eea86b;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.scroll-top-btn.img {
+    width: 32px;
+    height: 32px;
 }
 
 @media screen and (orientation: portrait) and (pointer: coarse) and (hover: none) {

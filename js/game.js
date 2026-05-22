@@ -101,9 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
  *   to inject into the overlay before toggling.
  */
 function toggleOverlay(overlayId, getContentFn) {
-  const overlay = document.getElementById(overlayId);
-  if (getContentFn) overlay.innerHTML = getContentFn();
-  overlay.classList.toggle("d-none");
+    const overlay = document.getElementById(overlayId);
+    if (getContentFn) overlay.innerHTML = getContentFn();
+    overlay.classList.toggle("d-none");
 }
 
 /**
