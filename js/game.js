@@ -7,7 +7,8 @@ let reasonsForLoss = "";
 
 /**
  * Initializes the game by hiding the landing screen, showing the UI controls,
- * loading the appropriate level, and creating a new World instance.
+ * activating the mobile buttons, loading the appropriate level, 
+ * and creating a new World instance.
  */
 function init() {
   document.getElementById("landingscreen").classList.add("d-none");

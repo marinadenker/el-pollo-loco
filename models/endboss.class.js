@@ -98,8 +98,8 @@ animate() {
   this.animateCurrentState();
   setInterval(() => {
     if (this.speed < 0) {
-      this.moveBack();
-      this.otherDirection = true; 
+      this.x += Math.abs(this.speed);
+      this.otherDirection = true;
     } else if (this.speed > 0) {
       this.moveLeft();
       this.otherDirection = false;

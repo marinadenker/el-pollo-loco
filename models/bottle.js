@@ -7,7 +7,6 @@ class Bottle extends MovableObject {
   };
   number;
 
-  
   /**
    * Creates a ground bottle at a random x position with a fixed size of 80×80px.
    * Adjusts the left/right hitbox offsets for the upright bottle image variant.

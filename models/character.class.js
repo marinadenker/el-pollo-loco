@@ -174,7 +174,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Moves Pepe to the right if the RIGHT key is held and the level boundary allows it.
    * Resets the facing direction and resets the inactivity timer.
@@ -187,7 +186,6 @@ class Character extends MovableObject {
       this.world.trackInactivity();
     }
   }
-
 
   /**
    * Moves Pepe to the left if the LEFT key is held and the position is within bounds.
@@ -202,7 +200,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Makes Pepe jump if SPACE or UP is pressed and he is not already airborne.
    * Resets the inactivity timer on jump.
@@ -214,7 +211,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Plays the jumping animation while Pepe is above ground and moving upward.
    * Called on a 300ms interval.
@@ -224,7 +220,6 @@ class Character extends MovableObject {
       this.playAnimation(this.IMAGES_JUMPING);
     }
   }
-
 
   /**
    * Handles animation for inactive states: death, snoozing, and sleeping.
@@ -242,7 +237,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Plays the long idle (sleeping) animation sequence.
    */
@@ -250,7 +244,6 @@ class Character extends MovableObject {
     this.playAnimation(this.IMAGES_LONG_IDLE);
     this.world.playSound(this.world.snoringAudio);
   }
-
 
   /**
    * Handles animation while Pepe is actively doing something (hurt or walking).
@@ -273,7 +266,6 @@ class Character extends MovableObject {
     }
   }
 
-
   /**
    * Plays the walking animation if the LEFT or RIGHT key is currently pressed.
    */  
@@ -282,7 +274,6 @@ class Character extends MovableObject {
       this.playAnimation(this.IMAGES_WALKING);
     }
   }
-
 
   /**
    * Triggers the death sequence: plays the death animation, makes Pepe fall off-screen,
@@ -298,7 +289,6 @@ class Character extends MovableObject {
       this.world.showGameOverScreen("lost");
     }, 1000);
   }
-
 
   /**
    * Reduces the character's energy by 10 on each hit.
