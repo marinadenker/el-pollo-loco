@@ -85,3 +85,15 @@ function getYouLostScreen() {
         </div>
     `;
 }
+
+function wannaGoScreen() {
+  return `
+        <div class="question-header">
+          <p class="exitquestion">Do you really wanna go?</p>
+        </div>
+        <div class="exit-options">
+          <button class="wood-btn" onclick="exitGame()">Yes</button>
+          <button class="wood-btn-secondary" onclick="closeExitConfirmation()">No</button>
+        </div>
+    `;
+}

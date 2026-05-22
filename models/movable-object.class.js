@@ -11,6 +11,11 @@ class MovableObject extends DrawableObject {
     bottom: 0,
   };
 
+
+  /**
+ * Creates a new MovableObject instance and loads the default character image.
+ * Initializes the base DrawableObject and sets the starting sprite.
+ */
   constructor() {
     super();
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");

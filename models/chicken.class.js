@@ -47,12 +47,13 @@ class Chicken extends MovableObject {
    */
   animate() {
     this.movementInterval = setInterval(() => {
+      if (this.world?.isPaused) return;
       if (this.isAlive) {
         this.x -= this.walkingSpeed;
       }
     }, 1000 / 60);
-
     this.animationInterval = setInterval(() => {
+      if (this.world?.isPaused) return;
       if (this.isAlive) {
         this.playAnimation(this.IMAGES_WALKING);
       }

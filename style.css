@@ -104,6 +104,20 @@ h3 {
     min-width: 160px;
 }
 
+.wood-btn-secondary {
+    background-image: url(img/wood-btn.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-family: "Sancreek";
+    border: none;
+    min-width: 160px;
+    filter: brightness(0.9);
+}
+
 .wood-btn:hover {
     transform: scale(1.05);
 }
@@ -257,6 +271,34 @@ table img {
     font-size: 26px;
 }
 
+.exit-bg {
+    background-image: url(img/exitscreen.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    gap: 64px;
+}
+
+.exitquestion {
+    color: #ffc71e;
+    font-size: 64px;
+    text-align: center;
+}
+
+.question-header {
+    width: 400px;
+}
+
+.exit-options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    width: 400px;
+}
+
 .leave-options {
     display: flex;
     justify-content: space-between;
@@ -283,6 +325,23 @@ table img {
     background-position: center;
     background-repeat: no-repeat;
     background-color: #352522;
+}
+
+.intro-bg {
+    background-image: url(img/introscreen.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #352522;
+}
+
+.intro-btns {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 25px;
 }
 
 #portrait-mode {

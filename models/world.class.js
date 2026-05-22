@@ -24,6 +24,7 @@ class World {
   endbossAttacking = false;
   endbossRetreating = false;
   collectedCoins = 0;
+  isPaused = false;
 
   earnedCoinAudio = new Audio("audio/coin.mp3");
   earnedBottleAudio = new Audio("audio/collect.mp3");
@@ -130,18 +131,20 @@ class World {
    * - 60fps: collision detection, throw input, endboss state, and game-over check.
    * - 1000ms: checks whether the character should enter a sleep state.
    */  
-  run() {
-    setInterval(() => {
-      this.worldActions.checkCollisions();
-      this.worldActions.checkThrowObjects();
-      this.worldActions.checkEndbossState();
-      this.checkGameOver();
-    }, 1000 / 60);
+run() {
+  setInterval(() => {
+    if (this.isPaused) return;
+    this.worldActions.checkCollisions();
+    this.worldActions.checkThrowObjects();
+    this.worldActions.checkEndbossState();
+    this.checkGameOver();
+  }, 1000 / 60);
 
-    setInterval(() => {
-      this.PepeIsSleeping();
-    }, 1000);
-  }
+  setInterval(() => {
+    if (this.isPaused) return;
+    this.PepeIsSleeping();
+  }, 1000);
+}
 
 
   /**
@@ -292,10 +295,11 @@ class World {
 
   /**
    * Checks win/loss conditions once per frame.
-   * - Energy at 0% → player lost.
+   * - Energy at 0% → player lost (ran out of health).
+   * - All bottles used up, none left on the ground, none in flight, and endboss still alive → player lost (ran out of bottles).
    * - Endboss health at 0% → player won.
    * Does nothing if `gameResult` is already set (prevents double-triggering).
-   */  
+   */
   checkGameOver() {
     if (gameResult !== null) return;
     if (this.statusBarEnergy.percentage <= 0) {
@@ -318,7 +322,7 @@ class World {
    * to display the appropriate end screen.
    * @param {"won"|"lost"} result - The outcome to display.
    */  
-showGameOverScreen(result) {
+  showGameOverScreen(result) {
     gameResult = result;
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
@@ -331,7 +335,6 @@ showGameOverScreen(result) {
     }
     gameOver(result);
   }
-
 
 
   /**

@@ -228,6 +228,8 @@ function gameOver(result) {
  */
 function showLostSequence() {
   const overlay = document.getElementById("game-result-overlay");
+  overlay.classList.remove("exit-bg");
+  overlay.classList.add("overlay-bg");
   overlay.innerHTML = getGameOverScreen();
   overlay.classList.remove("d-none");
 
@@ -244,6 +246,8 @@ function showLostSequence() {
  */
 function showWonScreen() {
   const overlay = document.getElementById("game-result-overlay");
+  overlay.classList.remove("exit-bg");
+  overlay.classList.add("overlay-bg");
   setTimeout(() => {
     exitGame();
     overlay.innerHTML = getYouWonScreen();
@@ -279,4 +283,32 @@ function exitGame() {
 function startLevel(level) {
   currentLevel = level;
   restartGame();
+}
+
+
+/**
+ * Pauses the game and displays the exit confirmation screen.
+ * Sets the world's isPaused flag, injects the exit screen template,
+ * swaps the overlay background class to exit-bg, and shows the overlay.
+ */
+function showExitConfirmation() {
+  world.isPaused = true;
+  const overlay = document.getElementById("game-result-overlay");
+  overlay.innerHTML = wannaGoScreen();
+  overlay.classList.remove("overlay-bg");
+  overlay.classList.add("exit-bg");
+  overlay.classList.remove("d-none");
+}
+
+/**
+ * Resumes the game and closes the exit confirmation screen.
+ * Resets the world's isPaused flag, swaps the background class back to overlay-bg,
+ * and hides the overlay.
+ */
+function closeExitConfirmation() {
+  world.isPaused = false;
+  const overlay = document.getElementById("game-result-overlay");
+  overlay.classList.remove("exit-bg");
+  overlay.classList.add("overlay-bg");
+  overlay.classList.add("d-none");
 }

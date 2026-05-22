@@ -32,14 +32,16 @@
     <h1>El Pollo Loco</h1>
     <div id="fullscreen" class="game-container">
         <div id="game-result-overlay" class="game-result-overlay overlay-bg d-none"></div>
-        <div id="landingscreen" class="landingscreen overlay-bg">
-            <button class="wood-btn" onclick="toggleOverlay('game-explanation', getExplanationOverlay)">Explanation</button>
-            <button class="wood-btn" onclick="init()">Start Game</button>
-            <button class="wood-btn" onclick="toggleOverlay('imprint', getImprintOverlay)">Imprint</button>
+        <div id="landingscreen" class="landingscreen intro-bg">
+            <div class="intro-btns">
+                <button class="wood-btn" onclick="toggleOverlay('game-explanation', getExplanationOverlay)">Explanation</button>
+                <button class="wood-btn" onclick="init()">Start Game</button>
+                <button class="wood-btn" onclick="toggleOverlay('imprint', getImprintOverlay)">Imprint</button>
+            </div>
         </div>
         <div id="game-btns" class="game-btns d-none">
             <button id="sound-btn" onclick="toggleSoundBtn()" class="toggle-sound-btn" title="Mute"><img src="img/icons/volume_up.svg"></button>
-            <button id="exit-game" onclick="exitGame()" class="exit-game-btn"><img src="img/icons/exit.svg" title="Exit"></button>
+            <button id="exit-game" onclick="showExitConfirmation()" class="exit-game-btn"><img src="img/icons/exit.svg" title="Exit"></button>
         </div>
 
         <canvas id="canvas" width="720" height="480"></canvas>
