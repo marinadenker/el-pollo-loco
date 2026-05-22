@@ -11,16 +11,14 @@ class MovableObject extends DrawableObject {
     bottom: 0,
   };
 
-
   /**
- * Creates a new MovableObject instance and loads the default character image.
- * Initializes the base DrawableObject and sets the starting sprite.
- */
+   * Creates a new MovableObject instance and loads the default character image.
+   * Initializes the base DrawableObject and sets the starting sprite.
+   */
   constructor() {
     super();
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
   }
-
 
   /**
    * Starts a gravity loop at 25fps that pulls the object downward when airborne.
@@ -40,7 +38,6 @@ class MovableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
-
   /**
    * Returns `true` if the object should keep moving vertically.
    * Always returns `true` for {@link ThrowableObject} (bottles fly freely);
@@ -55,7 +52,6 @@ class MovableObject extends DrawableObject {
     }
   }
 
-
   /**
    * Returns `true` if the object is above the ground threshold (y < 200).
    * Always returns `true` for {@link ThrowableObject} instances.
@@ -68,7 +64,6 @@ class MovableObject extends DrawableObject {
       return this.y < 200;
     }
   }
-
 
   /**
    * Returns `true` if this object's hitbox overlaps with another movable object's hitbox.
@@ -85,7 +80,6 @@ class MovableObject extends DrawableObject {
     );
   }
 
-
   /**
    * Reduces the object's energy by 1 and clamps it to 0.
    * Records `lastHit` only if energy is still above 0 after the hit.
@@ -99,7 +93,6 @@ class MovableObject extends DrawableObject {
     }
   }
 
-
   /**
    * Returns `true` if the object was hit within the last second.
    * Used to trigger hurt animations and prevent repeated damage.
@@ -111,7 +104,6 @@ class MovableObject extends DrawableObject {
     return timepassed < 1;
   }
 
-
   /**
    * Default animation loop stub that syncs the camera to this object's position.
    * Overridden by subclasses with their own animation logic.
@@ -122,7 +114,6 @@ class MovableObject extends DrawableObject {
     }, 1000 / 10);
   }
 
-
   /**
    * Returns `true` if the object's energy has reached exactly 0.
    * @returns {boolean}
@@ -130,7 +121,6 @@ class MovableObject extends DrawableObject {
   isDead() {
     return this.energy == 0;
   }
-
 
   /**
    * Moves the object to the right by `speed` pixels and sets `otherDirection` to `false`.
@@ -140,7 +130,6 @@ class MovableObject extends DrawableObject {
     this.x += this.speed;
   }
 
-
   /**
    * Moves the object to the left by `speed` pixels and sets `otherDirection` to `true`.
    */
@@ -148,7 +137,6 @@ class MovableObject extends DrawableObject {
     this.otherDirection = true;
     this.x -= this.speed;
   }
-
 
   /**
    * Moves the object to the right using the absolute value of `speed`,
@@ -159,7 +147,6 @@ class MovableObject extends DrawableObject {
     this.x += Math.abs(this.speed);
   }
 
-
   /**
    * Makes the object jump by setting `speedY` to 30 and playing the jump sound.
    */  
@@ -167,7 +154,6 @@ class MovableObject extends DrawableObject {
     this.speedY = 30;
     this.world.playSound(this.world.jumpAudio);
   }
-
 
   /**
    * Advances the animation by one frame from the given image array.
