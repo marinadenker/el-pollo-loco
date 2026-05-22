@@ -411,7 +411,7 @@ table img {
 @media only screen and (max-width: 900px) {
     canvas {
         width: 100%;
-        height: auto;
+        height: auto !important;
     }
 
     h1 {
