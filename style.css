@@ -277,7 +277,7 @@ table img {
 
 .lossreason {
     color: #ffc71e;
-    font-size: 26px;
+    font-size: 36px;
 }
 
 .exit-bg {
@@ -493,6 +493,10 @@ table img {
     canvas {
         height: 100vh;
         width: auto;
+    }
+
+    .lossreason {
+        font-size: 26px;
     }
 
 }
