@@ -163,13 +163,17 @@ class MovableObject extends DrawableObject {
    * @param {number} [frameSpeed=1] - How fast to advance frames; values below 1 slow the animation.
    */  
   playAnimation(images, frameSpeed = 1) {
+    if (this.currentAnimationImages !== images) {
+      this.currentAnimationImages = images;
+      this.currentImage = 0;
+      this.animationFrameCounter = 0;
+    }
     this.animationFrameCounter = (this.animationFrameCounter || 0) + frameSpeed;
     if (this.animationFrameCounter >= 1) {
       this.currentImage++;
       this.animationFrameCounter = 0;
     }
     let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
+    this.img = this.imageCache[images[i]];
   }
 }

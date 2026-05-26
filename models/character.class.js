@@ -117,28 +117,22 @@ class Character extends MovableObject {
 
   /**
    * Starts all animation and movement interval loops for the character.
-   * - 60fps loop: handles directional movement and camera.
-   * - 300ms loop: handles above-ground jump animation.
-   * - 1000ms loop: handles idle/sleep states and death.
+   * - 60fps loop: handles directional movement, camera, and jump animation.
+   * - 150ms loop: handles idle/sleep states and death.
    * - 100ms loop: handles in-action animations (walking, hurt).
    */
   animate() {
     setInterval(() => {
       if (!this.world) return;
       this.checkDirection();
-      this.world.camera_x = Math.max(-this.world.level.level_end_x, -this.x + 100,);
-      this.ifPepeIsFalling();
+      this.world.camera_x = Math.max(-this.world.level.level_end_x, -this.x + 100);
+      this.ifPepeIsAboveGround();
     }, 1000 / 60);
 
     setInterval(() => {
       if (!this.world) return;
-      this.ifPepeIsAboveGround();
-    }, 300);
-
-    setInterval(() => {
-      if (!this.world) return;
       this.ifPepeIsInactive();
-    }, 1000);
+    }, 150);
 
     setInterval(() => {
       if (!this.world) return;
@@ -154,24 +148,6 @@ class Character extends MovableObject {
     this.ifPepeIsWalkingRight();
     this.ifPepeIsWalkingLeft();
     this.ifPepeIsJumping();
-  }
-
-  /**
-   * Updates the character's sprite while falling, based on vertical speed thresholds.
-   * Plays landing or idle frames depending on how fast Pepe is descending.
-   */
-  ifPepeIsFalling() {
-    if (this.isAboveGround()) {
-      if (this.speedY < 0 && this.speedY > -20) {
-        this.img = this.imageCache["img/2_character_pepe/3_jump/J-37.png"];
-      }
-      if (this.speedY < -20 && this.speedY > -28) {
-        this.playAnimation(this.IMAGES_LANDING);
-      }
-      if (this.speedY < -28) {
-        this.playAnimation(this.IMAGES_IDLE);
-      }
-    }
   }
 
   /**
@@ -212,13 +188,18 @@ class Character extends MovableObject {
   }
 
   /**
-   * Plays the jumping animation while Pepe is above ground and moving upward.
-   * Called on a 300ms interval.
+   * Maps the current vertical speed to a jump animation frame while Pepe is airborne.
+   * Uses speedY (range 27.5 to -30) to calculate a progress value (0.0–1.0),
+   * which is then mapped to the corresponding frame in IMAGES_JUMPING.
+   * Called in the 60fps interval.
    */
   ifPepeIsAboveGround() {
-    if (this.isAboveGround() && this.speedY > 0) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    }
+    if (!this.isAboveGround()) return;
+    const totalFrames = this.IMAGES_JUMPING.length;
+    const maxSpeed = 27.5;
+    const progress = (maxSpeed - this.speedY) / (maxSpeed * 2);
+    const frameIndex = Math.min(Math.floor(progress * totalFrames), totalFrames - 1);
+    this.img = this.imageCache[this.IMAGES_JUMPING[frameIndex]];
   }
 
   /**
@@ -226,16 +207,19 @@ class Character extends MovableObject {
    * Called on a 1000ms interval.
    */ 
   ifPepeIsInactive() {
+    if (this.isAboveGround()) return;
     if (this.isDead()) {
       this.ifPepeIsDead();
-    } else if (this.isSnoozing && !this.isAboveGround()) {
-      this.playAnimation(this.IMAGES_IDLE);
     } else if (this.isSleeping) {
       this.playSleepingAnimation();
+    } else if (this.isSnoozing && !this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_IDLE);
+    } else if (this.isHurt() && !this.isAboveGround()) {
+      return;
     } else if (!this.isAboveGround() && Date.now() > this.world.lastAction) {
       this.playAnimation(this.IMAGES_IDLE);
     }
-  }
+}
 
   /**
    * Plays the long idle (sleeping) animation sequence.
@@ -247,22 +231,38 @@ class Character extends MovableObject {
 
   /**
    * Handles animation while Pepe is actively doing something (hurt or walking).
-   * Skips if Pepe is currently sleeping or snoozing.
+   * If sleeping or snoozing, hurt takes priority and wakes Pepe immediately.
    * Called on a 100ms interval.
    */
   ifPepeIsInAction() {
     if (this.isSleeping || this.isSnoozing) {
-      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.SPACE || this.world.keyboard.UP) {
-      this.isSleeping = false;
-      this.isSnoozing = false;
-    }
-    return;
+      if (this.isHurt()) {
+        this.isSleeping = false;
+        this.isSnoozing = false;
+        this.world.snoringAudio.pause();
+        this.playAnimation(this.IMAGES_HURT);
+        return;
+      }
+      this.handleWakeUp();
+      return;
     }
     this.world.snoringAudio.pause();
     if (this.isHurt() && !this.isAboveGround()) {
       this.playAnimation(this.IMAGES_HURT);
     } else {
       this.ifPepeIsWalking();
+    }
+  }
+
+  /**
+   * Checks whether a movement or jump key is pressed while Pepe is asleep or snoozing,
+   * and resets both sleep flags to wake him up.
+   */
+  handleWakeUp() {
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT ||
+        this.world.keyboard.SPACE || this.world.keyboard.UP) {
+      this.isSleeping = false;
+      this.isSnoozing = false;
     }
   }
 

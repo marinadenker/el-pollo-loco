@@ -247,7 +247,7 @@ run() {
    */  
   PepeIsSleeping() {
     const inactiveSince = new Date().getTime() - this.lastAction;
-    if (inactiveSince > 15000) {
+    if (inactiveSince > 8000) {
       this.character.isSnoozing = false;
       this.character.isSleeping = true;
     } else if (inactiveSince > 5000) {
