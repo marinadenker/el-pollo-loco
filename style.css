@@ -508,3 +508,35 @@ table img {
         padding: 10px 16px;
     }
 }
+
+
+@media only screen and (max-height: 360px) {
+  .game-result-overlay {
+    padding: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+  }
+
+  .lost-img {
+    height: 180px;
+    padding-top: 0;
+  }
+
+  .won-img {
+    min-height: unset;
+    max-height: 200px;
+  }
+
+  .gameover-img {
+    height: 180px;
+    padding-top: 16px;
+  }
+
+  .lossreason {
+    font-size: 20px;
+  }
+
+  .intro-btns {
+    bottom: 15px;
+  }
+}
